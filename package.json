@@ -4,12 +4,15 @@
   "description": "A flood it game",
   "main": "game.js",
   "scripts": {
-    "start": "http-server -o"
+    "start": "json-server --watch db.json  --static . --port 8080"
   },
   "author": "Shuunen",
   "license": "AGPL-3.0",
   "devDependencies": {
     "eslint": "^3.17.1",
     "jscs": "^3.0.7"
+  },
+  "dependencies": {
+    "json-server": "^0.9.6"
   }
 }

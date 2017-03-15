@@ -8,6 +8,7 @@ new Vue({
         floodColor: null,
         best: 0,
         moves: 0,
+        player: '',
         gameEnded: false,
         size: {
             x: 7,
@@ -132,10 +133,21 @@ new Vue({
                     }
                 }
             }, 200);
+        },
+        db: function (method, url, payload) {
+            var options = { method: method };
+            if (payload) {
+                options.body = JSON.stringify(payload);
+                options.headers = { 'Content-Type': 'application/json' };
+            }
+            return fetch(url, options).then((res) => res.json())
         }
     },
     mounted() {
         console.log('app init');
         this.init();
+        this.db('post', '/scores', { player: 'hueï', score: 14, grid: 123233221143 }).then((data) => {
+            console.log(data);
+        });
     }
 });
