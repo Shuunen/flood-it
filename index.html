@@ -10,7 +10,7 @@
 <body>
     <div id="game" v-bind:class="gameEnded ? 'game-ended' : ''">
         <h1>{{ title }}</h1>
-        <p>Best : {{ best }} moves - Actual : {{ moves }} moves</p>
+        <div class="moves">{{ moves }} moves</div>
         <div class="grid">
             <br>
             <div class="row" v-for="yi in size.y">
@@ -22,6 +22,15 @@
             <h3>You win in {{ moves }} moves !</h3>
             <br>
             <a class="btn" href="#" v-on:click="init">> Start a new game <</a>
+        </div>
+        <div class="footer">
+            <div class="highscores">
+                <strong>Highscores</strong>
+                <div v-for="highscore in highscores">{{ highscore.player }} : {{ highscore.score }}</div>
+                <em v-if="!highscores || !highscores.length">No highscores yet !</em>
+            </div>
+            <span>---</span>
+            <p>Game seed : {{ seed }}</p>
         </div>
     </div>
     <script src="./vendors/vue_211.js"></script>

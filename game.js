@@ -6,9 +6,10 @@ new Vue({
         version: '0.1.0',
         baseColor: null,
         floodColor: null,
-        best: 0,
+        highscores: null,
         moves: 0,
         player: '',
+        seed: '7x7_0203320220210300203212213232303131321333010021331',
         gameEnded: false,
         size: {
             x: 7,
@@ -20,7 +21,18 @@ new Vue({
         init: function () {
             this.gameEnded = false;
             this.moves = 0;
+            // this.createSeed(); // commented to use the default seed
             this.colorGrid();
+            this.getHighscores();
+        },
+        createSeed: function () {
+            var seed = this.size.x + 'x' + this.size.y + '_';
+            var nbColors = this.colors.length;
+            for (var i = 0; i < this.size.x * this.size.y; i++) {
+                seed += this.getRandBetween(0, nbColors - 1);
+            }
+            this.seed = seed;
+            return seed;
         },
         firstCap: function (str) {
             str = (str + '');
@@ -39,13 +51,25 @@ new Vue({
             return arr[pos];
         },
         colorGrid: function () {
-            // console.log('rand col', this.pick(this.colors));
+            // this.seed = '7x7_3200013120203221020122022130221111223000303132131'
+            // seed = '3200013120203221020122022130221111223000303132131'
+            var seed = this.seed.split('_')[1];
             for (var yi = 1; yi <= this.size.y; yi++) {
                 for (var xi = 1; xi <= this.size.x; xi++) {
-                    var color = this.pick(this.colors);
+                    // i = 3
+                    var i = seed[0];
+                    // color = 'darkorange' if colors is ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
+                    var color = this.colors[i];
+                    // seed = '200013120203221020122022130221111223000303132131'
+                    seed = seed.substr(1);
                     this.colorCell(xi, yi, color);
                 }
             }
+        },
+        getHighscores: function () {
+            this.db('get', '/scores?seed=' + this.seed).then((highscores) => {
+                this.highscores = highscores;
+            });
         },
         getCell: function (x, y, noWarn) {
             var cell = document.getElementById(x + '' + y);
@@ -114,7 +138,7 @@ new Vue({
                         var color = this.getCellColor(xi, yi);
                         if (this.floodColor !== color) {
                             gameEnded = false;
-                            console.log('game not ended yet because cell at ' + xi + '/' + yi + ' is "' + color + '"');
+                            // console.log('game not ended yet because cell at ' + xi + '/' + yi + ' is "' + color + '"');
                         }
                     }
                     if (gameEnded === false) {
@@ -125,12 +149,14 @@ new Vue({
                 if (gameEnded) {
                     console.log('tadaa');
                     this.gameEnded = true;
+                    /*
                     if (this.best === 0 || this.best > this.moves) {
                         // if best has not been set yet
                         // or
                         // if best is worst than actual moves
                         this.best = this.moves;
                     }
+                    */
                 }
             }, 200);
         },
@@ -146,8 +172,10 @@ new Vue({
     mounted() {
         console.log('app init');
         this.init();
+        /*
         this.db('post', '/scores', { player: 'hueï', score: 14, grid: 123233221143 }).then((data) => {
             console.log(data);
         });
+        */
     }
 });
