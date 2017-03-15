@@ -1,0 +1,31 @@
+<html>
+
+<head>
+    <title>Flood-it</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="game.css">
+</head>
+
+<body>
+    <div id="game" v-bind:class="gameEnded ? 'game-ended' : ''">
+        <h1>{{ title }}</h1>
+        <p>Best : {{ best }} moves - Actual : {{ moves }} moves</p>
+        <div class="grid">
+            <br>
+            <div class="row" v-for="yi in size.y">
+                <div class="cell" v-for="xi in size.x" v-bind:id="xi + '' + yi" v-on:click="onCellClick">{{ xi }} / {{ yi }}</div>
+            </div>
+        </div>
+        <div v-if="gameEnded">
+            <br>
+            <h3>You win in {{ moves }} moves !</h3>
+            <br>
+            <a class="btn" href="#" v-on:click="init">> Start a new game <</a>
+        </div>
+    </div>
+    <script src="./vendors/vue_211.js"></script>
+    <script src="game.js"></script>
+</body>
+
+</html>
