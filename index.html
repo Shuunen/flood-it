@@ -9,12 +9,13 @@
 
 <body>
     <div id="game" v-bind:class="gameEnded ? 'game-ended' : ''">
-        <a class="btn restart-game" href="#" v-on:click="restartGame">Restart</a>
-        <a class="btn new-game" href="#" v-on:click="newGame">New game</a>
+        <div class="header">
+            <a class="btn restart-game" href="#" v-on:click="restartGame">Restart</a>
+            <a class="btn new-game" href="#" v-on:click="newGame">New game</a>
+        </div>
         <h1>{{ title }}</h1>
         <div class="moves">{{ player ? player : 'Unknown hero' }} : {{ moves }} moves</div>
         <div class="grid">
-            <br>
             <div class="row" v-for="yi in size.y">
                 <div class="cell" v-for="xi in size.x" v-bind:id="xi + '' + yi" v-on:click="onCellClick">{{ xi }} / {{ yi }}</div>
             </div>

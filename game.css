@@ -8,7 +8,7 @@ html, body {
 
 body {
     text-align:center;
-    padding-top: 4vw;
+    padding-top: 2vw;
     margin: 0;
     background-color: darkslategrey;
     color: snow;
@@ -25,7 +25,7 @@ body {
 h1 {
     font-size: 30px;
     letter-spacing: -4px;
-    margin: 4vw 0;
+    margin: 2vw 0;
 }
 
 h3 {
@@ -37,11 +37,12 @@ h3 {
     text-decoration: none;
     font-size: 20px;
     border: 1px solid;
-    padding: 10px;
+    padding: 2vw;
     border-radius: 3px;
     /* box-shadow: 1px 1px 2px; */
     opacity: 0.6;
     transition: .3s opacity;
+    min-width: 115px;
 }
 
 .btn:hover {
@@ -55,6 +56,7 @@ h3 {
     /* background-color: lightcoral; */
     /* filter: grayscale(1); */
     flex-shrink: 0;
+    margin-top: 4vw;
 }
 
 .row {
@@ -97,6 +99,8 @@ h3 {
         transform: scale(1) rotate(90deg);
     }
 }
+
+.header {display: flex;justify-content: space-around;}
 
 .footer {
     color: wheat;
@@ -158,19 +162,7 @@ h3 {
     list-style: none;
 }
 
-.restart-game,
-.new-game {
-    position: absolute;
-    top: 10px;
-}
 
-.restart-game {
-    left: 10px;
-}
-
-.new-game {
-    right: 10px;
-}
 
 input {
     padding: 8px 12px;
