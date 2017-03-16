@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="footer">
-            <div class="highscores">
+            <div class="highscores" v-if="dbEnabled">
                 <strong>Highscores</strong>
                 <ol>
                     <li v-for="highscore in highscores">{{ highscore.player }} : {{ highscore.score }}</li>

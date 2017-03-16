@@ -10,6 +10,7 @@ new Vue({
         moves: 0,
         player: '',
         seed: '',
+        dbEnabled: false,
         askPlayer: false,
         askPlayerRules: false,
         gameEnded: false,
@@ -23,7 +24,7 @@ new Vue({
     },
     methods: {
         init: function () {
-            this.getEndpoint();
+            this.getContext();
             this.getStorage();
             this.newGame();
         },
@@ -41,13 +42,8 @@ new Vue({
         restartGame: function () {
             this.newGame();
         },
-        getEndpoint: function () {
-            var host = document.location.hostname;
-            if (host === 'localhost') {
-                this.endpoint = '';
-            } else {
-                this.endpoint = 'http://168.235.70.9/';
-            }
+        getContext: function () {
+            this.dbEnabled = (document.location.protocol.indexOf('https') === -1);
         },
         getSeed: function () {
             var seed = this.size.x + 'x' + this.size.y + '_';
@@ -97,11 +93,17 @@ new Vue({
             }
         },
         getScores: function () {
+            if (!this.dbEnabled) {
+                return;
+            }
             this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=5').then((highscores) => {
                 this.highscores = highscores;
             });
         },
         postScore: function () {
+            if (!this.dbEnabled) {
+                return;
+            }
             this.db('get', '/scores?player=' + this.player + '&score=' + this.moves + '&seed=' + this.seed).then((sameScore) => {
                 // check if player / score / seed combo does not already exists
                 this.sameScore = (sameScore.length > 0);
@@ -211,7 +213,7 @@ new Vue({
         onGameEnded: function () {
             console.log('tadaa');
             this.gameEnded = true;
-            /*
+            /* TODO : check if player beat highscore
             if (this.best === 0 || this.best > this.moves) {
                 // if best has not been set yet
                 // or
@@ -219,6 +221,9 @@ new Vue({
                 this.best = this.moves;
             }
             */
+            if (!this.dbEnabled) {
+                return;
+            }
             if (this.player.length) {
                 this.postScore();
             } else {
@@ -232,7 +237,7 @@ new Vue({
                 options.body = JSON.stringify(payload);
                 options.headers = { 'Content-Type': 'application/json' };
             }
-            return fetch(this.endpoint + url, options).then((res) => res.json())
+            return fetch(url, options).then((res) => res.json())
         }
     },
     mounted() {
