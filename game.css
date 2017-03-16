@@ -43,6 +43,10 @@ h3 {
     opacity: 0.6;
     transition: .3s opacity;
     min-width: 115px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn:hover {
@@ -100,7 +104,7 @@ h3 {
     }
 }
 
-.header {display: flex;justify-content: space-around;}
+.header {display: flex;justify-content: space-around;height: 12vw;max-height: 50px;}
 
 .footer {
     color: wheat;

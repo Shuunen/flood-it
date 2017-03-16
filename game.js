@@ -23,6 +23,7 @@ new Vue({
     },
     methods: {
         init: function () {
+            this.getEndpoint();
             this.getStorage();
             this.newGame();
         },
@@ -39,6 +40,14 @@ new Vue({
         },
         restartGame: function () {
             this.newGame();
+        },
+        getEndpoint: function () {
+            var host = document.location.hostname;
+            if (host === 'localhost') {
+                this.endpoint = '';
+            } else {
+                this.endpoint = 'http://168.235.70.9/';
+            }
         },
         getSeed: function () {
             var seed = this.size.x + 'x' + this.size.y + '_';
@@ -223,16 +232,11 @@ new Vue({
                 options.body = JSON.stringify(payload);
                 options.headers = { 'Content-Type': 'application/json' };
             }
-            return fetch(url, options).then((res) => res.json())
+            return fetch(this.endpoint + url, options).then((res) => res.json())
         }
     },
     mounted() {
         console.log('app init');
         this.init();
-        /*
-        this.db('post', '/scores', { player: 'hueï', score: 14, grid: 123233221143 }).then((data) => {
-            console.log(data);
-        });
-        */
     }
 });
