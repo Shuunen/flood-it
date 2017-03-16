@@ -179,3 +179,5 @@ input {
 input[type="submit"] {
     cursor: pointer;
 }
+
+.seed {word-break: break-word;}

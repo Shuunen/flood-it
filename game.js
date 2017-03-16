@@ -51,8 +51,17 @@ new Vue({
             if (matches && matches.length === 4) {
                 this.size.x = parseInt(matches[1]);
                 this.size.y = parseInt(matches[2]);
-                this.seed = matches[0]; // seed is the all match "7x7_1234"
-                console.log('detected seed in url : "' + this.seed + '"');
+                var seed = matches[0]; // seed is the all match "7x7_1234"
+                console.log('detected seed in url : "' + seed + '"');
+                var seedSize = matches[3].length;
+                while (seedSize < (this.size.x * this.size.y)) {
+                    seed += this.getRandBetween(0, this.colors.length - 1);
+                    seedSize++;
+                }
+                if (seed !== matches[0]) {
+                    console.info('seed in url has been fixed');
+                }
+                this.setSeed(seed);
             }
         },
         getSeed: function () {
@@ -101,8 +110,8 @@ new Vue({
                         // color = 'darkorange' if colors is ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
                         color = this.colors[i];
                     } else {
-                        // we reach end of seed & i is undefined, let's just pick a random color
-                        color = this.getOneIn(this.colors);
+                        // we reach end of seed & i is undefined, we should have a complete seed before coming here
+                        console.error('incomplete seed');
                     }
 
                     // seed = '200013120203221020122022130221111223000303132131'
