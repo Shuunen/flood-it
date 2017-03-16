@@ -36,7 +36,8 @@ new Vue({
             if (newSeed) {
                 this.setSeed();
             }
-            this.setGrid();
+            // delay grid colorize to let dom build cells
+            setTimeout(() => this.setGrid(), 200);
             this.getScores();
         },
         restartGame: function () {
@@ -44,6 +45,15 @@ new Vue({
         },
         getContext: function () {
             this.dbEnabled = (document.location.protocol.indexOf('https') === -1);
+
+            var hash = document.location.hash;
+            var matches = hash.match(/(\d+)x(\d+)_(\d+)/);
+            if (matches && matches.length === 4) {
+                this.size.x = parseInt(matches[1]);
+                this.size.y = parseInt(matches[2]);
+                this.seed = matches[0]; // seed is the all match "7x7_1234"
+                console.log('detected seed in url : "' + this.seed + '"');
+            }
         },
         getSeed: function () {
             var seed = this.size.x + 'x' + this.size.y + '_';
@@ -51,14 +61,15 @@ new Vue({
             for (var i = 0; i < this.size.x * this.size.y; i++) {
                 seed += this.getRandBetween(0, nbColors - 1);
             }
-            this.seed = seed;
             return seed;
         },
-        setSeed: function () {
+        setSeed: function (seed) {
             // create a new seed
-            this.seed = this.getSeed();
+            this.seed = seed || this.getSeed();
             // keep it in storage
             this.setStorage();
+            // put it in url
+            document.location.hash = this.seed;
         },
         firstCap: function (str) {
             str = (str + '');
@@ -71,7 +82,7 @@ new Vue({
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
-        getRandIn: function (arr) {
+        getOneIn: function (arr) {
             var pos = this.getRandBetween(0, arr.length - 1);
             // console.log('rand pos : ' + pos + ' on ' + arr.length);
             return arr[pos];
@@ -80,12 +91,20 @@ new Vue({
             // this.seed = '7x7_3200013120203221020122022130221111223000303132131'
             // seed = '3200013120203221020122022130221111223000303132131'
             var seed = this.seed.split('_')[1];
+            console.log('color the ' + this.size.x + 'x' + this.size.y + ' grid');
             for (var yi = 1; yi <= this.size.y; yi++) {
                 for (var xi = 1; xi <= this.size.x; xi++) {
-                    // i = 3
+                    var color;
                     var i = seed[0];
-                    // color = 'darkorange' if colors is ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
-                    var color = this.colors[i];
+                    if (i !== undefined) {
+                        // i = 3
+                        // color = 'darkorange' if colors is ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
+                        color = this.colors[i];
+                    } else {
+                        // we reach end of seed & i is undefined, let's just pick a random color
+                        color = this.getOneIn(this.colors);
+                    }
+
                     // seed = '200013120203221020122022130221111223000303132131'
                     seed = seed.substr(1);
                     this.colorCell(xi, yi, color);
@@ -125,7 +144,10 @@ new Vue({
             try {
                 var data = JSON.parse(localStorage.floodIt);
                 this.player = data.player;
-                this.seed = data.seed;
+                // if this.seed is empty, take the one in storage
+                if (this.seed === '') {
+                    this.setSeed(data.seed);
+                }
             } catch (error) {
                 this.setSeed();
             }
