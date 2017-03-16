@@ -40,6 +40,12 @@ h3 {
     padding: 10px;
     border-radius: 3px;
     /* box-shadow: 1px 1px 2px; */
+    opacity: 0.6;
+    transition: .3s opacity;
+}
+
+.btn:hover {
+    opacity: 1;
 }
 
 .grid {
@@ -48,6 +54,7 @@ h3 {
     align-items: center;
     /* background-color: lightcoral; */
     /* filter: grayscale(1); */
+    flex-shrink: 0;
 }
 
 .row {
@@ -137,4 +144,40 @@ h3 {
     text-align: left;
     margin: auto;
     padding-left: 28px;
+}
+
+#askPlayerForm .rules {
+    /* line-height: 24px; */
+    /* margin: 0; */
+    padding: 0;
+    width: 100%;
+    color: darkseagreen;
+}
+
+#askPlayerForm .rules li {
+    list-style: none;
+}
+
+.restart-game,
+.new-game {
+    position: absolute;
+    top: 10px;
+}
+
+.restart-game {
+    left: 10px;
+}
+
+.new-game {
+    right: 10px;
+}
+
+input {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type="submit"] {
+    cursor: pointer;
 }

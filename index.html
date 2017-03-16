@@ -9,19 +9,31 @@
 
 <body>
     <div id="game" v-bind:class="gameEnded ? 'game-ended' : ''">
+        <a class="btn restart-game" href="#" v-on:click="restartGame">Restart</a>
+        <a class="btn new-game" href="#" v-on:click="newGame">New game</a>
         <h1>{{ title }}</h1>
-        <div class="moves">{{ moves }} moves</div>
+        <div class="moves">{{ player ? player : 'Unknown hero' }} : {{ moves }} moves</div>
         <div class="grid">
             <br>
             <div class="row" v-for="yi in size.y">
                 <div class="cell" v-for="xi in size.x" v-bind:id="xi + '' + yi" v-on:click="onCellClick">{{ xi }} / {{ yi }}</div>
             </div>
         </div>
-        <div v-if="gameEnded">
+        <div v-show="gameEnded">
             <br>
-            <h3>You win in {{ moves }} moves !</h3>
-            <br>
-            <a class="btn" href="#" v-on:click="init">> Start a new game <</a>
+            <h3>You win in {{ moves }} moves {{ sameScore ? 'again ' : '' }} !</h3>
+            <small v-show="scoreSubmitted">Score has been submitted.</small>
+            <div v-show="askPlayer">
+                <p>You want to be in the highscores ?<br>What's your name ?</p>
+                <form id="askPlayerForm" v-on:submit.prevent="postScore">
+                    <input type="text" v-model="player" placeholder="hero name" minlength="3" maxlength="10" v-on:focus="askPlayerRules = true">
+                    <input type="submit" value="Send !" v-on:click="setStorage">
+                    <ul v-show="askPlayerRules" class="rules">
+                        <li v-show="!player || !player.length">Name cannot be empty.</li>
+                        <li v-show="player.length < 3 || player.length > 10">Name should be between 3 & 10 characters long.</li>
+                    </ul>
+                </form>
+            </div>
         </div>
         <div class="footer">
             <div class="highscores">
@@ -29,7 +41,7 @@
                 <ol>
                     <li v-for="highscore in highscores">{{ highscore.player }} : {{ highscore.score }}</li>
                 </ol>
-                <em v-if="!highscores || !highscores.length">No highscores yet !</em>
+                <em v-if="!highscores || !highscores.length">No highscores for this grid yet, do your best !</em>
             </div>
             <p>Game seed : {{ seed }}</p>
         </div>

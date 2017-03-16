@@ -9,8 +9,12 @@ new Vue({
         highscores: null,
         moves: 0,
         player: '',
-        seed: '7x7_0203320220210300203212213232303131321333010021331',
+        seed: '',
+        askPlayer: false,
+        askPlayerRules: false,
         gameEnded: false,
+        sameScore: false,
+        scoreSubmitted: false,
         size: {
             x: 7,
             y: 7
@@ -19,13 +23,24 @@ new Vue({
     },
     methods: {
         init: function () {
-            this.gameEnded = false;
-            this.moves = 0;
-            // this.createSeed(); // commented to use the default seed
-            this.colorGrid();
-            this.getHighscores();
+            this.getStorage();
+            this.newGame();
         },
-        createSeed: function () {
+        newGame: function (newSeed) {
+            this.gameEnded = false;
+            this.sameScore = false;
+            this.scoreSubmitted = false;
+            this.moves = 0;
+            if (newSeed) {
+                this.setSeed();
+            }
+            this.setGrid();
+            this.getScores();
+        },
+        restartGame: function () {
+            this.newGame();
+        },
+        getSeed: function () {
             var seed = this.size.x + 'x' + this.size.y + '_';
             var nbColors = this.colors.length;
             for (var i = 0; i < this.size.x * this.size.y; i++) {
@@ -33,6 +48,12 @@ new Vue({
             }
             this.seed = seed;
             return seed;
+        },
+        setSeed: function () {
+            // create a new seed
+            this.seed = this.getSeed();
+            // keep it in storage
+            this.setStorage();
         },
         firstCap: function (str) {
             str = (str + '');
@@ -45,12 +66,12 @@ new Vue({
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
-        pick: function (arr) {
+        getRandIn: function (arr) {
             var pos = this.getRandBetween(0, arr.length - 1);
             // console.log('rand pos : ' + pos + ' on ' + arr.length);
             return arr[pos];
         },
-        colorGrid: function () {
+        setGrid: function () {
             // this.seed = '7x7_3200013120203221020122022130221111223000303132131'
             // seed = '3200013120203221020122022130221111223000303132131'
             var seed = this.seed.split('_')[1];
@@ -66,10 +87,37 @@ new Vue({
                 }
             }
         },
-        getHighscores: function () {
-            this.db('get', '/scores?seed=' + this.seed).then((highscores) => {
+        getScores: function () {
+            this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=5').then((highscores) => {
                 this.highscores = highscores;
             });
+        },
+        postScore: function () {
+            this.db('get', '/scores?player=' + this.player + '&score=' + this.moves + '&seed=' + this.seed).then((sameScore) => {
+                // check if player / score / seed combo does not already exists
+                this.sameScore = (sameScore.length > 0);
+                // if this combo does not exists, push it to db
+                if (!this.sameScore) {
+                    this.db('post', '/scores', { player: this.player, score: this.moves, seed: this.seed });
+                    this.scoreSubmitted = true;
+                    this.getScores();
+                }
+            });
+        },
+        setStorage: function () {
+            localStorage.floodIt = JSON.stringify({
+                player: this.player,
+                seed: this.seed
+            });
+        },
+        getStorage: function () {
+            try {
+                var data = JSON.parse(localStorage.floodIt);
+                this.player = data.player;
+                this.seed = data.seed;
+            } catch (error) {
+                this.setSeed();
+            }
         },
         getCell: function (x, y, noWarn) {
             var cell = document.getElementById(x + '' + y);
@@ -147,18 +195,27 @@ new Vue({
                     }
                 }
                 if (gameEnded) {
-                    console.log('tadaa');
-                    this.gameEnded = true;
-                    /*
-                    if (this.best === 0 || this.best > this.moves) {
-                        // if best has not been set yet
-                        // or
-                        // if best is worst than actual moves
-                        this.best = this.moves;
-                    }
-                    */
+                    this.onGameEnded();
                 }
             }, 200);
+        },
+        onGameEnded: function () {
+            console.log('tadaa');
+            this.gameEnded = true;
+            /*
+            if (this.best === 0 || this.best > this.moves) {
+                // if best has not been set yet
+                // or
+                // if best is worst than actual moves
+                this.best = this.moves;
+            }
+            */
+            if (this.player.length) {
+                this.postScore();
+            } else {
+                this.askPlayer = true;
+            }
+
         },
         db: function (method, url, payload) {
             var options = { method: method };
