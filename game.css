@@ -8,7 +8,7 @@ html, body {
 
 body {
     text-align:center;
-    padding-top: 50px;
+    padding-top: 4vw;
     margin: 0;
     background-color: darkslategrey;
     color: snow;
@@ -16,9 +16,16 @@ body {
     font-size: 16px;
 }
 
+#game {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 h1 {
     font-size: 30px;
     letter-spacing: -4px;
+    margin: 4vw 0;
 }
 
 h3 {
@@ -49,8 +56,10 @@ h3 {
 }
 
 .cell {
-    height: 50px;
-    width: 50px;
+    height: 14vw;
+    width: 14vw;
+    max-width: 50px;
+    max-height: 50px;
     line-height: 50px;
     /* background-color: lightgreen; */
     /* border: 1px solid; */
@@ -86,15 +95,46 @@ h3 {
     color: wheat;
     font-size: 10px;
     padding: 15px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    margin-top: auto;
 }
 
 .highscores {
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    line-height: 20px;
+    /* padding: 10px; */
+    line-height: 25px;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.highscores strong {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    position: relative;
+    padding-bottom: 11px;
+}
+
+.highscores strong::before,
+.highscores strong::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 20px;
+    background-color: currentColor;
+    position: absolute;
+    bottom: 0;
+    left: calc(50% - 10px);
+    transform: rotate(30deg);
+}
+
+.highscores strong::after {
+    transform: rotate(-30deg);
+}
+
+.highscores ol {
+    text-align: left;
+    margin: auto;
+    padding-left: 28px;
 }
