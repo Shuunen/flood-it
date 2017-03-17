@@ -7,7 +7,7 @@ new Vue({
         baseColor: null,
         floodColor: null,
         highscores: null,
-        endpoint: '',
+        endpoint: 'http://localhost:8088',
         moves: 0,
         player: '',
         seed: '',
@@ -46,11 +46,6 @@ new Vue({
         },
         getContext: function () {
             this.dbEnabled = (document.location.protocol.indexOf('https') === -1);
-
-            this.endpoint = document.location.origin;
-            if (this.endpoint.indexOf('8088') === -1) {
-                this.endpoint += ':8088';
-            }
 
             var hash = document.location.hash;
             var matches = hash.match(/(\d+)x(\d+)_(\d+)/);
