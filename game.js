@@ -3,10 +3,11 @@ new Vue({
     el: '#game',
     data: {
         title: 'Flood-it',
-        version: '0.1.0',
+        version: '0.2.0',
         baseColor: null,
         floodColor: null,
         highscores: null,
+        endpoint: '',
         moves: 0,
         player: '',
         seed: '',
@@ -24,8 +25,8 @@ new Vue({
     },
     methods: {
         init: function () {
-            this.getContext();
             this.getStorage();
+            this.getContext();
             this.newGame();
         },
         newGame: function (newSeed) {
@@ -46,6 +47,11 @@ new Vue({
         getContext: function () {
             this.dbEnabled = (document.location.protocol.indexOf('https') === -1);
 
+            this.endpoint = document.location.origin;
+            if (this.endpoint.indexOf('8088') === -1) {
+                this.endpoint += ':8088';
+            }
+
             var hash = document.location.hash;
             var matches = hash.match(/(\d+)x(\d+)_(\d+)/);
             if (matches && matches.length === 4) {
@@ -65,6 +71,7 @@ new Vue({
             }
         },
         getSeed: function () {
+            console.log('getSeed');
             var seed = this.size.x + 'x' + this.size.y + '_';
             var nbColors = this.colors.length;
             for (var i = 0; i < this.size.x * this.size.y; i++) {
@@ -72,11 +79,15 @@ new Vue({
             }
             return seed;
         },
-        setSeed: function (seed) {
+        setSeed: function (seed, fromGetStorage) {
+            console.log('setSeed');
             // create a new seed
             this.seed = seed || this.getSeed();
-            // keep it in storage
-            this.setStorage();
+            // check if we got here from getStorage
+            if (!fromGetStorage) {
+                // keep it in storage
+                this.setStorage();
+            }
             // put it in url
             document.location.hash = this.seed;
         },
@@ -144,18 +155,20 @@ new Vue({
             });
         },
         setStorage: function () {
+            console.log('setStorage');
             localStorage.floodIt = JSON.stringify({
                 player: this.player,
                 seed: this.seed
             });
         },
         getStorage: function () {
+            console.log('getStorage');
             try {
                 var data = JSON.parse(localStorage.floodIt);
                 this.player = data.player;
                 // if this.seed is empty, take the one in storage
                 if (this.seed === '') {
-                    this.setSeed(data.seed);
+                    this.setSeed(data.seed, true);
                 }
             } catch (error) {
                 this.setSeed();
@@ -268,7 +281,7 @@ new Vue({
                 options.body = JSON.stringify(payload);
                 options.headers = { 'Content-Type': 'application/json' };
             }
-            return fetch(url, options).then((res) => res.json())
+            return fetch(this.endpoint + url, options).then((res) => res.json())
         }
     },
     mounted() {

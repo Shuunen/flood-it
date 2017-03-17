@@ -24,7 +24,7 @@
             <br>
             <h3>You win in {{ moves }} moves {{ sameScore ? 'again ' : '' }} !</h3>
             <small v-show="scoreSubmitted">Score has been submitted.</small>
-            <div v-show="askPlayer">
+            <div v-show="askPlayer && !scoreSubmitted">
                 <p>You want to be in the highscores ?<br>What's your name ?</p>
                 <form id="askPlayerForm" v-on:submit.prevent="postScore">
                     <input type="text" v-model="player" placeholder="hero name" minlength="3" maxlength="10" v-on:focus="askPlayerRules = true">
