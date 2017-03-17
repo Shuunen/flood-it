@@ -36,7 +36,7 @@
             <div class="highscores" v-if="dbEnabled">
                 <strong>Highscores</strong>
                 <ol>
-                    <li v-for="highscore in highscores">{{ highscore.player }} : {{ highscore.score }}</li>
+                    <li v-for="highscore in highscores" v-if="highscore.player">{{ highscore.player }} : {{ highscore.score }}</li>
                 </ol>
                 <em v-if="!highscores || !highscores.length">No highscores for this grid yet, do your best !</em>
             </div>

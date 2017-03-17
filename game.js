@@ -134,6 +134,14 @@ new Vue({
                 return;
             }
             this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=5').then((highscores) => {
+                var lastScore;
+                for (var i in highscores) {
+                    if (lastScore === highscores[i].score) {
+                        highscores[i - 1].player += ', ' + highscores[i].player;
+                        highscores[i].player = null;
+                    }
+                    lastScore = highscores[i].score;
+                }
                 this.highscores = highscores;
             });
         },
