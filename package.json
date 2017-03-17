@@ -4,8 +4,8 @@
   "description": "A flood it game",
   "main": "game.js",
   "scripts": {
-    "start": "json-server --watch db.json  --static . --port 8088",
-    "start-db": "json-server --watch db.json --port 8088"
+    "start": "json-server --watch db.json  --static . --port 8080",
+    "start-db": "json-server --watch db.json --port 8080 --no-cors"
   },
   "author": "Shuunen",
   "license": "AGPL-3.0",

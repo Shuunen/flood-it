@@ -7,7 +7,7 @@ new Vue({
         baseColor: null,
         floodColor: null,
         highscores: null,
-        endpoint: 'http://localhost:8088',
+        endpoint: 'http://168.235.70.9:8080',
         moves: 0,
         player: '',
         seed: '',
