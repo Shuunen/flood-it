@@ -37,18 +37,19 @@ h3 {
     text-decoration: none;
     font-size: 20px;
     border: 1px solid;
-    padding: 2vw;
+    padding: 6px 12px;
     border-radius: 3px;
     /* box-shadow: 1px 1px 2px; */
     opacity: 0.6;
     transition: .3s opacity;
-    min-width: 115px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* min-width: 115px; */
+    /* height: 100%; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
     background: none;
     cursor: pointer;
+    margin-bottom: 6px;
 }
 
 .btn:hover {

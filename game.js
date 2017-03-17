@@ -45,6 +45,11 @@ new Vue({
         restartGame: function () {
             this.newGame();
         },
+        useSeed: function () {
+            var seed = window.prompt('Please insert the seed you want to play');
+            this.setSeed(seed);
+            this.restartGame();
+        },
         getSeedFromUrl: function () {
             var hash = document.location.hash;
             var matches = hash.match(/(\d+)x(\d+)_(\d+)/);

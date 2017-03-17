@@ -9,10 +9,6 @@
 
 <body>
     <div id="game" v-bind:class="gameEnded ? 'game-ended' : ''">
-        <div class="header">
-            <button class="btn restart-game" v-on:click="restartGame">Restart</button>
-            <button class="btn new-game" v-on:click="newGame">New game</button>
-        </div>
         <h1>{{ title }}</h1>
         <div class="moves">{{ player ? player : 'Unknown hero' }} : {{ moves }} moves</div>
         <div class="grid">
@@ -43,6 +39,11 @@
                     <li v-for="highscore in highscores">{{ highscore.player }} : {{ highscore.score }}</li>
                 </ol>
                 <em v-if="!highscores || !highscores.length">No highscores for this grid yet, do your best !</em>
+            </div>
+            <div class="menu">
+                <button class="btn" v-on:click="restartGame">Restart</button>
+                <button class="btn" v-on:click="useSeed">Use seed</button>
+                <button class="btn" v-on:click="newGame">New game</button>
             </div>
             <p class="seed">Game seed : {{ seed }}</p>
         </div>
