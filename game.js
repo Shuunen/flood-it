@@ -10,6 +10,7 @@ new Vue({
     moves: 0,
     player: '',
     seed: '',
+    seedFormat: /(\d+)x(\d+)_(\d+)/,
     dbEnabled: false,
     askPlayer: false,
     askPlayerRules: false,
@@ -51,7 +52,7 @@ new Vue({
     },
     getSeedFromUrl: function () {
       var hash = document.location.hash;
-      var matches = hash.match(/(\d+)x(\d+)_(\d+)/);
+      var matches = hash.match(this.seedFormat);
       if (matches && matches.length === 4) {
         this.size.x = parseInt(matches[1]);
         this.size.y = parseInt(matches[2]);
@@ -79,8 +80,16 @@ new Vue({
     },
     setSeed: function (seed, avoidSetStorage) {
       console.log('setSeed');
-      // create a new seed
+      // use or create a new seed
       this.seed = seed || this.getSeed();
+      // update size
+      var matches = this.seed.match(this.seedFormat);
+      if (matches && matches.length === 4) {
+        this.size.x = parseInt(matches[1]);
+        this.size.y = parseInt(matches[2]);
+      } else {
+        console.error('seed format seems to be incorrect');
+      }
       if (!avoidSetStorage) {
         // keep it in storage
         this.setStorage();
