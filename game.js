@@ -156,7 +156,8 @@ new Vue({
                 if (!this.sameScore) {
                     this.db('post', '/scores', { player: this.player, score: this.moves, seed: this.seed });
                     this.scoreSubmitted = true;
-                    this.getScores();
+                    // delay score refresh to let db changes appears
+                    setTimeout(() => this.getScores(), 500);
                 }
             });
         },
