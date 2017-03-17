@@ -25,8 +25,9 @@ new Vue({
     },
     methods: {
         init: function () {
+            this.dbEnabled = (document.location.protocol.indexOf('https') === -1);
+            this.getSeedFromUrl();
             this.getStorage();
-            this.getContext();
             this.newGame();
         },
         newGame: function (newSeed) {
@@ -44,9 +45,7 @@ new Vue({
         restartGame: function () {
             this.newGame();
         },
-        getContext: function () {
-            this.dbEnabled = (document.location.protocol.indexOf('https') === -1);
-
+        getSeedFromUrl: function () {
             var hash = document.location.hash;
             var matches = hash.match(/(\d+)x(\d+)_(\d+)/);
             if (matches && matches.length === 4) {
@@ -62,7 +61,7 @@ new Vue({
                 if (seed !== matches[0]) {
                     console.info('seed in url has been fixed');
                 }
-                this.setSeed(seed);
+                this.setSeed(seed, true);
             }
         },
         getSeed: function () {
@@ -74,12 +73,11 @@ new Vue({
             }
             return seed;
         },
-        setSeed: function (seed, fromGetStorage) {
+        setSeed: function (seed, avoidSetStorage) {
             console.log('setSeed');
             // create a new seed
             this.seed = seed || this.getSeed();
-            // check if we got here from getStorage
-            if (!fromGetStorage) {
+            if (!avoidSetStorage) {
                 // keep it in storage
                 this.setStorage();
             }
