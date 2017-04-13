@@ -4,7 +4,7 @@
   "description": "A flood it game",
   "main": "game.js",
   "scripts": {
-    "start": "node index.js & json-server --watch db.json --port 8080 --no-cors",
+    "start": "node index.js",
     "start-db-only": "json-server --watch db.json --port 8080 --no-cors"
   },
   "author": "Shuunen",

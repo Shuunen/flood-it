@@ -7,7 +7,6 @@ new Vue({
     floodColor: null,
     highscores: null,
     endpoint: '',
-    port: '8080',
     moves: 0,
     player: '',
     seed: '',
@@ -27,7 +26,7 @@ new Vue({
   methods: {
     init: function () {
       this.dbEnabled = true;
-      this.endpoint = document.location.origin.replace(':' + document.location.port, '') + ':' + this.port;
+      // this.endpoint = document.location.origin.replace(':' + document.location.port, '') + ':' + this.port;
       this.getSeedFromUrl();
       this.getStorage();
       this.newGame();
