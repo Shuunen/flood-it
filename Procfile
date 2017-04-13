@@ -1,1 +1,1 @@
-web: node index.js
+web: node index.js & ./node_modules/json-server/bin/index.js --watch db.json --port 8080 --no-cors
