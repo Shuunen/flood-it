@@ -1,21 +1,25 @@
 {
-  "name": "flood-it",
-  "version": "0.2.0",
+  "author": "Shuunen",
+  "dependencies": {
+    "express": "4.15.2",
+    "json-server": "0.9.6"
+  },
   "description": "A flood it game",
+  "devDependencies": {
+    "eslint": "3.17.1"
+  },
+  "files": [
+    "public"
+  ],
   "license": "GPL-3.0",
   "main": "game.js",
+  "name": "flood-it",
   "scripts": {
+    "check": "npx repo-check",
+    "ci": "npm run test",
     "start": "node index.js",
-    "start-db-only": "json-server --watch db.json --port 8080 --no-cors"
+    "start-db-only": "json-server --watch db.json --port 8080 --no-cors",
+    "test": "npm run check"
   },
-  "author": "Shuunen",
-  "license": "AGPL-3.0",
-  "devDependencies": {
-    "eslint": "^3.17.1",
-    "jscs": "^3.0.7"
-  },
-  "dependencies": {
-    "express": "^4.15.2",
-    "json-server": "^0.9.6"
-  }
+  "version": "0.2.0"
 }
