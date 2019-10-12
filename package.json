@@ -2,6 +2,7 @@
   "name": "flood-it",
   "version": "0.2.0",
   "description": "A flood it game",
+  "license": "GPL-3.0",
   "main": "game.js",
   "scripts": {
     "start": "node index.js",
