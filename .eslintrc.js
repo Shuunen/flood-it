@@ -10,8 +10,7 @@ module.exports = {
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-    Vue: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
   parserOptions: {
     ecmaVersion: 2018
@@ -20,5 +19,6 @@ module.exports = {
     'vue'
   ],
   rules: {
+    'no-console': 'error'
   }
 }
