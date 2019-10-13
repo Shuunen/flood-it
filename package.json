@@ -20,7 +20,8 @@
   "homepage": "https://github.com/Shuunen/flood-it",
   "keywords": [
     "flood-it",
-    "game"
+    "game",
+    "json-server"
   ],
   "license": "GPL-3.0",
   "main": "game.js",
