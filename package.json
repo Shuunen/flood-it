@@ -1,25 +1,43 @@
 {
-  "author": "Shuunen",
+  "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
+  "bugs": "https://github.com/Shuunen/flood-it/issues",
   "dependencies": {
-    "express": "4.15.2",
-    "json-server": "0.9.6"
+    "json-server": "0.15.1"
   },
   "description": "A flood it game",
   "devDependencies": {
-    "eslint": "3.17.1"
+    "eslint": "6.5.1",
+    "eslint-config-standard": "14.1.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-node": "10.0.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-standard": "4.0.1",
+    "eslint-plugin-vue": "5.2.3"
   },
   "files": [
     "public"
   ],
+  "homepage": "https://github.com/Shuunen/flood-it",
+  "keywords": [
+    "flood-it",
+    "game"
+  ],
   "license": "GPL-3.0",
   "main": "game.js",
-  "name": "flood-it",
+  "name": "@shuunen/flood-it",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Shuunen/flood-it.git"
+  },
   "scripts": {
     "check": "npx repo-check",
     "ci": "npm run test",
-    "start": "node index.js",
-    "start-db-only": "json-server --watch db.json --port 8080 --no-cors",
-    "test": "npm run check"
+    "dev": "npm start",
+    "lint": "eslint --fix src/**/*.js",
+    "start": "json-server db.json --port 80 --static src",
+    "test": "npm run lint && npm run check",
+    "update": "npx npm-check-updates -u"
   },
   "version": "0.2.0"
 }
