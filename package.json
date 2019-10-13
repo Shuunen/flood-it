@@ -14,6 +14,9 @@
     "eslint-plugin-standard": "4.0.1",
     "eslint-plugin-vue": "5.2.3"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "files": [
     "public"
   ],
@@ -34,8 +37,9 @@
     "check": "npx repo-check",
     "ci": "npm run test",
     "dev": "npm start",
-    "lint": "eslint --fix src/**/*.js",
-    "start": "json-server db.json --port 80 --static src",
+    "lint": "eslint --fix public/**/*.js",
+    "start": "node index.js",
+    "start-without-index": "json-server db.json --port 80 --static public",
     "test": "npm run lint && npm run check",
     "update": "npx npm-check-updates -u"
   },
