@@ -1,4 +1,6 @@
-const app = new Vue({
+/* global Vue */
+// eslint-disable-next-line no-new
+new Vue({
   el: '#game',
   data: {
     title: 'Flood-it',
@@ -41,7 +43,7 @@ const app = new Vue({
       }
       // delay grid colorize to let dom build cells
       setTimeout(() => this.setGrid(), 200)
-      this.getScores()
+      this.getHighScores()
     },
     restartGame: function () {
       this.newGame()
@@ -51,6 +53,14 @@ const app = new Vue({
       this.setSeed(seed)
       this.restartGame()
     },
+    log (str) {
+      // eslint-disable-next-line no-console
+      console.log(str)
+    },
+    error (str) {
+      // eslint-disable-next-line no-console
+      console.error(str)
+    },
     getSeedFromUrl: function () {
       var hash = document.location.hash
       var matches = hash.match(this.seedFormat)
@@ -58,20 +68,20 @@ const app = new Vue({
         this.size.x = parseInt(matches[1])
         this.size.y = parseInt(matches[2])
         var seed = matches[0] // seed is the all match "7x7_1234"
-        console.log('detected seed in url : "' + seed + '"')
+        this.log('detected seed in url : ' + seed)
         var seedSize = matches[3].length
         while (seedSize < (this.size.x * this.size.y)) {
           seed += this.getRandBetween(0, this.colors.length - 1)
           seedSize++
         }
         if (seed !== matches[0]) {
-          console.info('seed in url has been fixed')
+          this.log('seed in url has been fixed')
         }
         this.setSeed(seed, true)
       }
     },
     getSeed: function () {
-      console.log('getSeed')
+      this.log('getSeed')
       var seed = this.size.x + 'x' + this.size.y + '_'
       var nbColors = this.colors.length
       for (var i = 0; i < this.size.x * this.size.y; i++) {
@@ -80,7 +90,7 @@ const app = new Vue({
       return seed
     },
     setSeed: function (seed, avoidSetStorage) {
-      console.log('setSeed')
+      this.log('setSeed')
       // use or create a new seed
       this.seed = seed || this.getSeed()
       // update size
@@ -89,7 +99,7 @@ const app = new Vue({
         this.size.x = parseInt(matches[1])
         this.size.y = parseInt(matches[2])
       } else {
-        console.error('seed format seems to be incorrect')
+        this.error('seed format seems to be incorrect')
       }
       if (!avoidSetStorage) {
         // keep it in storage
@@ -111,61 +121,57 @@ const app = new Vue({
     },
     getOneIn: function (arr) {
       var pos = this.getRandBetween(0, arr.length - 1)
-      // console.log('rand pos : ' + pos + ' on ' + arr.length);
       return arr[pos]
     },
     setGrid: function () {
       // this.seed = '7x7_3200013120203221020122022130221111223000303132131'
       // seed = '3200013120203221020122022130221111223000303132131'
       var seed = this.seed.split('_')[1]
-      console.log('color the ' + this.size.x + 'x' + this.size.y + ' grid')
       for (var yi = 1; yi <= this.size.y; yi++) {
         for (var xi = 1; xi <= this.size.x; xi++) {
-          var color
           var i = seed[0]
-          if (i !== undefined) {
-            // i = 3
-            // color = 'darkorange' if colors is ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
+          var color = 'red'
+          if (i !== undefined && this.colors[i]) {
             color = this.colors[i]
           } else {
             // we reach end of seed & i is undefined, we should have a complete seed before coming here
-            console.error('incomplete seed')
+            this.error('incomplete seed')
           }
-
           // seed = '200013120203221020122022130221111223000303132131'
           seed = seed.substr(1)
           this.colorCell(xi, yi, color)
         }
       }
     },
-    getScores: function () {
+    getHighScores: function () {
       if (!this.dbEnabled) {
         return
       }
-      this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=15').then((highScores) => {
-        var lastPlayer
-        var lastScore
-        var nbScores = 1
-        var nbScoresMax = 5
-        for (var i in highScores) {
-          if (nbScores > nbScoresMax) {
-            highScores[i].player = null
-            continue
-          }
-          if (lastScore === highScores[i].score) {
-            var lastIndex = i - 1
-            while (highScores[lastIndex].player === null) { lastIndex-- }
-            if (!lastPlayer || lastPlayer.indexOf(highScores[i].player) === -1) {
-              lastPlayer = highScores[lastIndex].player = highScores[lastIndex].player + ', ' + highScores[i].player
-            }
-            highScores[i].player = null
-            nbScores--
-          }
-          lastScore = highScores[i].score
-          nbScores++
+      this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=15').then((highScores) => this.setHighScores(highScores))
+    },
+    setHighScores: function (highScores) {
+      var lastPlayer
+      var lastScore
+      var nbScores = 1
+      var nbScoresMax = 5
+      highScores.forEach((highScore, index) => {
+        if (nbScores > nbScoresMax) {
+          highScore.player = null
+          return
         }
-        this.highScores = highScores
+        if (lastScore === highScore.score) {
+          var lastIndex = index - 1
+          while (highScores[lastIndex].player === null) { lastIndex-- }
+          if (!lastPlayer || lastPlayer.indexOf(highScore.player) === -1) {
+            lastPlayer = highScores[lastIndex].player = highScores[lastIndex].player + ', ' + highScore.player
+          }
+          highScore.player = null
+          nbScores--
+        }
+        lastScore = highScore.score
+        nbScores++
       })
+      this.highScores = highScores
     },
     postScore: function () {
       if (!this.dbEnabled) {
@@ -183,19 +189,19 @@ const app = new Vue({
           })
           this.scoreSubmitted = true
           // delay score refresh to let db changes appears
-          setTimeout(() => this.getScores(), 500)
+          setTimeout(() => this.getHighScores(), 500)
         }
       })
     },
     setStorage: function () {
-      console.log('setStorage')
+      this.log('setStorage')
       localStorage.floodIt = JSON.stringify({
         player: this.player,
         seed: this.seed
       })
     },
     getStorage: function () {
-      console.log('getStorage')
+      this.log('getStorage')
       try {
         var data = JSON.parse(localStorage.floodIt)
         this.player = data.player
@@ -211,7 +217,7 @@ const app = new Vue({
       var cell = document.getElementById(x + '' + y)
       if (!cell) {
         if (!noWarn) {
-          console.error('no cell found on pos x/y : ' + x + '/' + y)
+          this.error('no cell found on pos x/y : ' + x + '/' + y)
         }
         return
       }
@@ -235,7 +241,7 @@ const app = new Vue({
         // if asked color is the same as base color
         return
       }
-      console.log('base is "' + this.baseColor + '" & user asked to flood with "' + this.floodColor + '"')
+      this.log(`base is "${this.baseColor}" & user asked to flood with "${this.floodColor}"`)
       this.moves++
       this.floodCell(1, 1)
     },
@@ -245,7 +251,6 @@ const app = new Vue({
         return
       }
       if (cell.style.backgroundColor === this.baseColor) {
-        // console.info('flooded');
         cell.style.backgroundColor = this.floodColor
         this.floodCell(x - 1, y)
         this.floodCell(x + 1, y)
@@ -274,7 +279,6 @@ const app = new Vue({
             var color = this.getCellColor(xi, yi)
             if (this.floodColor !== color) {
               gameEnded = false
-              // console.log('game not ended yet because cell at ' + xi + '/' + yi + ' is "' + color + '"');
             }
           }
           if (gameEnded === false) {
@@ -288,7 +292,7 @@ const app = new Vue({
       }, 200)
     },
     onGameEnded: function () {
-      console.log('game ended')
+      this.log('game ended')
       this.gameEnded = true
       /* TODO : check if player beat high score
       if (this.best === 0 || this.best > this.moves) {
@@ -321,9 +325,7 @@ const app = new Vue({
     }
   },
   mounted () {
-    console.log('app init')
+    this.log('app init')
     this.init()
   }
 })
-
-console.log('app init', app)
