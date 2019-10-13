@@ -37,9 +37,9 @@
     "check": "npx repo-check",
     "ci": "npm run test",
     "dev": "npm start",
-    "lint": "eslint --fix src/**/*.js",
+    "lint": "eslint --fix public/**/*.js",
     "start": "node index.js",
-    "start-without-index": "json-server db.json --port 80 --static src",
+    "start-without-index": "json-server db.json --port 80 --static public",
     "test": "npm run lint && npm run check",
     "update": "npx npm-check-updates -u"
   },
