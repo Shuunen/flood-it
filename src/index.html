@@ -21,7 +21,7 @@
             <h3>You win in {{ moves }} moves {{ sameScore ? 'again ' : '' }} !</h3>
             <small v-show="scoreSubmitted">Score has been submitted.</small>
             <div v-show="askPlayer && !scoreSubmitted">
-                <p>You want to be in the highscores ?<br>What's your name ?</p>
+                <p>You want to be in the high-scores ?<br>What's your name ?</p>
                 <form id="askPlayerForm" v-on:submit.prevent="postScore">
                     <input type="text" v-model="player" placeholder="hero name" minlength="3" maxlength="10" v-on:focus="askPlayerRules = true">
                     <input type="submit" value="Send !" v-on:click="setStorage">
@@ -33,12 +33,12 @@
             </div>
         </div>
         <div class="footer">
-            <div class="highscores" v-if="dbEnabled">
-                <strong>Highscores</strong>
+            <div class="high-scores" v-if="dbEnabled">
+                <strong>High-scores</strong>
                 <ol>
-                    <li v-for="highscore in highscores" v-if="highscore.player">{{ highscore.player }} : {{ highscore.score }}</li>
+                    <li v-for="highScore in highScores" v-if="highScore.player">{{ highScore.player }} : {{ highScore.score }}</li>
                 </ol>
-                <em v-if="!highscores || !highscores.length">No highscores for this grid yet, do your best !</em>
+                <em v-if="!highScores || !highScores.length">No high-scores for this grid yet, do your best !</em>
             </div>
             <div class="menu">
                 <button class="btn" v-on:click="restartGame">Restart</button>
@@ -48,7 +48,7 @@
             <p class="seed">Game seed : {{ seed }}</p>
         </div>
     </div>
-    <script src="./vendors/vue_211.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
     <script src="game.js"></script>
 </body>
 

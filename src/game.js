@@ -1,11 +1,11 @@
-new Vue({
+const app = new Vue({
   el: '#game',
   data: {
     title: 'Flood-it',
     version: '0.2.0',
     baseColor: null,
     floodColor: null,
-    highscores: null,
+    highScores: null,
     endpoint: '',
     moves: 0,
     player: '',
@@ -25,272 +25,272 @@ new Vue({
   },
   methods: {
     init: function () {
-      this.dbEnabled = true;
+      this.dbEnabled = true
       // this.endpoint = document.location.origin.replace(':' + document.location.port, '') + ':' + this.port;
-      this.getSeedFromUrl();
-      this.getStorage();
-      this.newGame();
+      this.getSeedFromUrl()
+      this.getStorage()
+      this.newGame()
     },
     newGame: function (newSeed) {
-      this.gameEnded = false;
-      this.sameScore = false;
-      this.scoreSubmitted = false;
-      this.moves = 0;
+      this.gameEnded = false
+      this.sameScore = false
+      this.scoreSubmitted = false
+      this.moves = 0
       if (newSeed) {
-        this.setSeed();
+        this.setSeed()
       }
       // delay grid colorize to let dom build cells
-      setTimeout(() => this.setGrid(), 200);
-      this.getScores();
+      setTimeout(() => this.setGrid(), 200)
+      this.getScores()
     },
     restartGame: function () {
-      this.newGame();
+      this.newGame()
     },
     useSeed: function () {
-      var seed = window.prompt('Please insert the seed you want to play');
-      this.setSeed(seed);
-      this.restartGame();
+      var seed = window.prompt('Please insert the seed you want to play')
+      this.setSeed(seed)
+      this.restartGame()
     },
     getSeedFromUrl: function () {
-      var hash = document.location.hash;
-      var matches = hash.match(this.seedFormat);
+      var hash = document.location.hash
+      var matches = hash.match(this.seedFormat)
       if (matches && matches.length === 4) {
-        this.size.x = parseInt(matches[1]);
-        this.size.y = parseInt(matches[2]);
-        var seed = matches[0]; // seed is the all match "7x7_1234"
-        console.log('detected seed in url : "' + seed + '"');
-        var seedSize = matches[3].length;
+        this.size.x = parseInt(matches[1])
+        this.size.y = parseInt(matches[2])
+        var seed = matches[0] // seed is the all match "7x7_1234"
+        console.log('detected seed in url : "' + seed + '"')
+        var seedSize = matches[3].length
         while (seedSize < (this.size.x * this.size.y)) {
-          seed += this.getRandBetween(0, this.colors.length - 1);
-          seedSize++;
+          seed += this.getRandBetween(0, this.colors.length - 1)
+          seedSize++
         }
         if (seed !== matches[0]) {
-          console.info('seed in url has been fixed');
+          console.info('seed in url has been fixed')
         }
-        this.setSeed(seed, true);
+        this.setSeed(seed, true)
       }
     },
     getSeed: function () {
-      console.log('getSeed');
-      var seed = this.size.x + 'x' + this.size.y + '_';
-      var nbColors = this.colors.length;
+      console.log('getSeed')
+      var seed = this.size.x + 'x' + this.size.y + '_'
+      var nbColors = this.colors.length
       for (var i = 0; i < this.size.x * this.size.y; i++) {
-        seed += this.getRandBetween(0, nbColors - 1);
+        seed += this.getRandBetween(0, nbColors - 1)
       }
-      return seed;
+      return seed
     },
     setSeed: function (seed, avoidSetStorage) {
-      console.log('setSeed');
+      console.log('setSeed')
       // use or create a new seed
-      this.seed = seed || this.getSeed();
+      this.seed = seed || this.getSeed()
       // update size
-      var matches = this.seed.match(this.seedFormat);
+      var matches = this.seed.match(this.seedFormat)
       if (matches && matches.length === 4) {
-        this.size.x = parseInt(matches[1]);
-        this.size.y = parseInt(matches[2]);
+        this.size.x = parseInt(matches[1])
+        this.size.y = parseInt(matches[2])
       } else {
-        console.error('seed format seems to be incorrect');
+        console.error('seed format seems to be incorrect')
       }
       if (!avoidSetStorage) {
         // keep it in storage
-        this.setStorage();
+        this.setStorage()
       }
       // put it in url
-      document.location.hash = this.seed;
+      document.location.hash = this.seed
     },
     firstCap: function (str) {
-      str = (str + '');
-      str = str.toLowerCase();
-      str = str[0].toUpperCase() + str.slice(1);
-      return str;
+      str = (str + '')
+      str = str.toLowerCase()
+      str = str[0].toUpperCase() + str.slice(1)
+      return str
     },
     getRandBetween: function (min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min + 1)) + min;
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min + 1)) + min
     },
     getOneIn: function (arr) {
-      var pos = this.getRandBetween(0, arr.length - 1);
+      var pos = this.getRandBetween(0, arr.length - 1)
       // console.log('rand pos : ' + pos + ' on ' + arr.length);
-      return arr[pos];
+      return arr[pos]
     },
     setGrid: function () {
       // this.seed = '7x7_3200013120203221020122022130221111223000303132131'
       // seed = '3200013120203221020122022130221111223000303132131'
-      var seed = this.seed.split('_')[1];
-      console.log('color the ' + this.size.x + 'x' + this.size.y + ' grid');
+      var seed = this.seed.split('_')[1]
+      console.log('color the ' + this.size.x + 'x' + this.size.y + ' grid')
       for (var yi = 1; yi <= this.size.y; yi++) {
         for (var xi = 1; xi <= this.size.x; xi++) {
-          var color;
-          var i = seed[0];
+          var color
+          var i = seed[0]
           if (i !== undefined) {
             // i = 3
             // color = 'darkorange' if colors is ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
-            color = this.colors[i];
+            color = this.colors[i]
           } else {
             // we reach end of seed & i is undefined, we should have a complete seed before coming here
-            console.error('incomplete seed');
+            console.error('incomplete seed')
           }
 
           // seed = '200013120203221020122022130221111223000303132131'
-          seed = seed.substr(1);
-          this.colorCell(xi, yi, color);
+          seed = seed.substr(1)
+          this.colorCell(xi, yi, color)
         }
       }
     },
     getScores: function () {
       if (!this.dbEnabled) {
-        return;
+        return
       }
-      this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=15').then((highscores) => {
-        var lastPlayer;
-        var lastScore;
-        var nbScores = 1;
-        var nbScoresMax = 5;
-        for (var i in highscores) {
+      this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=15').then((highScores) => {
+        var lastPlayer
+        var lastScore
+        var nbScores = 1
+        var nbScoresMax = 5
+        for (var i in highScores) {
           if (nbScores > nbScoresMax) {
-            highscores[i].player = null;
-            continue;
+            highScores[i].player = null
+            continue
           }
-          if (lastScore === highscores[i].score) {
-            var lastIndex = i - 1;
-            while (highscores[lastIndex].player === null) { lastIndex--; }
-            if (!lastPlayer || lastPlayer.indexOf(highscores[i].player) === -1) {
-              lastPlayer = highscores[lastIndex].player = highscores[lastIndex].player + ', ' + highscores[i].player;
+          if (lastScore === highScores[i].score) {
+            var lastIndex = i - 1
+            while (highScores[lastIndex].player === null) { lastIndex-- }
+            if (!lastPlayer || lastPlayer.indexOf(highScores[i].player) === -1) {
+              lastPlayer = highScores[lastIndex].player = highScores[lastIndex].player + ', ' + highScores[i].player
             }
-            highscores[i].player = null;
-            nbScores--;
+            highScores[i].player = null
+            nbScores--
           }
-          lastScore = highscores[i].score;
-          nbScores++;
+          lastScore = highScores[i].score
+          nbScores++
         }
-        this.highscores = highscores;
-      });
+        this.highScores = highScores
+      })
     },
     postScore: function () {
       if (!this.dbEnabled) {
-        return;
+        return
       }
       this.db('get', '/scores?player=' + this.player + '&score=' + this.moves + '&seed=' + this.seed).then((sameScore) => {
         // check if player / score / seed combo does not already exists
-        this.sameScore = (sameScore.length > 0);
+        this.sameScore = (sameScore.length > 0)
         // if this combo does not exists, push it to db
         if (!this.sameScore) {
           this.db('post', '/scores', {
             player: this.player,
             score: this.moves,
             seed: this.seed
-          });
-          this.scoreSubmitted = true;
+          })
+          this.scoreSubmitted = true
           // delay score refresh to let db changes appears
-          setTimeout(() => this.getScores(), 500);
+          setTimeout(() => this.getScores(), 500)
         }
-      });
+      })
     },
     setStorage: function () {
-      console.log('setStorage');
+      console.log('setStorage')
       localStorage.floodIt = JSON.stringify({
         player: this.player,
         seed: this.seed
-      });
+      })
     },
     getStorage: function () {
-      console.log('getStorage');
+      console.log('getStorage')
       try {
-        var data = JSON.parse(localStorage.floodIt);
-        this.player = data.player;
+        var data = JSON.parse(localStorage.floodIt)
+        this.player = data.player
         // if this.seed is empty, take the one in storage
         if (this.seed === '') {
-          this.setSeed(data.seed, true);
+          this.setSeed(data.seed, true)
         }
       } catch (error) {
-        this.setSeed();
+        this.setSeed()
       }
     },
     getCell: function (x, y, noWarn) {
-      var cell = document.getElementById(x + '' + y);
+      var cell = document.getElementById(x + '' + y)
       if (!cell) {
         if (!noWarn) {
-          console.error('no cell found on pos x/y : ' + x + '/' + y);
+          console.error('no cell found on pos x/y : ' + x + '/' + y)
         }
-        return;
+        return
       }
-      return cell;
+      return cell
     },
     getCellColor: function (x, y) {
-      var cell = this.getCell(x, y);
-      return cell.style.backgroundColor;
+      var cell = this.getCell(x, y)
+      return cell.style.backgroundColor
     },
     colorCell: function (x, y, color) {
-      var cell = this.getCell(x, y);
-      cell.style.backgroundColor = color;
+      var cell = this.getCell(x, y)
+      cell.style.backgroundColor = color
     },
     onCellClick: function (event) {
-      this.floodColor = event.target.style.backgroundColor;
-      this.flood();
+      this.floodColor = event.target.style.backgroundColor
+      this.flood()
     },
     flood: function () {
-      this.baseColor = this.getCellColor(1, 1);
+      this.baseColor = this.getCellColor(1, 1)
       if (this.baseColor === this.floodColor) {
         // if asked color is the same as base color
-        return;
+        return
       }
-      console.log('base is "' + this.baseColor + '" & user asked to flood with "' + this.floodColor + '"');
-      this.moves++;
-      this.floodCell(1, 1);
+      console.log('base is "' + this.baseColor + '" & user asked to flood with "' + this.floodColor + '"')
+      this.moves++
+      this.floodCell(1, 1)
     },
     floodCell: function (x, y) {
-      var cell = this.getCell(x, y, true);
+      var cell = this.getCell(x, y, true)
       if (!cell) {
-        return;
+        return
       }
       if (cell.style.backgroundColor === this.baseColor) {
         // console.info('flooded');
-        cell.style.backgroundColor = this.floodColor;
-        this.floodCell(x - 1, y);
-        this.floodCell(x + 1, y);
-        this.floodCell(x, y - 1);
-        this.floodCell(x, y + 1);
-        this.checkEnd();
+        cell.style.backgroundColor = this.floodColor
+        this.floodCell(x - 1, y)
+        this.floodCell(x + 1, y)
+        this.floodCell(x, y - 1)
+        this.floodCell(x, y + 1)
+        this.checkEnd()
       }
     },
     checkEnd: function () {
       if (this.gameEnded) {
         // avoid multiple sync calls when game is ended
-        return;
+        return
       }
       setTimeout(() => {
         if (this.gameEnded) {
           // avoid multiple async calls when game is ended
-          return;
+          return
         }
-        var gameEnded = true;
+        var gameEnded = true
         for (var yi = 1; yi <= this.size.y; yi++) {
           for (var xi = 1; xi <= this.size.x; xi++) {
             if (gameEnded === false) {
               // avoid parsing further cols when game is ended
-              break;
+              break
             }
-            var color = this.getCellColor(xi, yi);
+            var color = this.getCellColor(xi, yi)
             if (this.floodColor !== color) {
-              gameEnded = false;
+              gameEnded = false
               // console.log('game not ended yet because cell at ' + xi + '/' + yi + ' is "' + color + '"');
             }
           }
           if (gameEnded === false) {
             // avoid parsing further rows when game is ended
-            break;
+            break
           }
         }
         if (gameEnded) {
-          this.onGameEnded();
+          this.onGameEnded()
         }
-      }, 200);
+      }, 200)
     },
     onGameEnded: function () {
-      console.log('tadaa');
-      this.gameEnded = true;
-      /* TODO : check if player beat highscore
+      console.log('game ended')
+      this.gameEnded = true
+      /* TODO : check if player beat high score
       if (this.best === 0 || this.best > this.moves) {
           // if best has not been set yet
           // or
@@ -299,30 +299,31 @@ new Vue({
       }
       */
       if (!this.dbEnabled) {
-        return;
+        return
       }
       if (this.player.length) {
-        this.postScore();
+        this.postScore()
       } else {
-        this.askPlayer = true;
+        this.askPlayer = true
       }
-
     },
     db: function (method, url, payload) {
       var options = {
         method: method
-      };
+      }
       if (payload) {
-        options.body = JSON.stringify(payload);
+        options.body = JSON.stringify(payload)
         options.headers = {
           'Content-Type': 'application/json'
-        };
+        }
       }
       return fetch(this.endpoint + url, options).then((res) => res.json())
     }
   },
-  mounted() {
-    console.log('app init');
-    this.init();
+  mounted () {
+    console.log('app init')
+    this.init()
   }
-});
+})
+
+console.log('app init', app)
