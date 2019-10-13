@@ -38,8 +38,8 @@
     "ci": "npm run test",
     "dev": "npm start",
     "lint": "eslint --fix src/**/*.js",
-    "postinstall": "npm start",
-    "start": "json-server db.json --port 80 --static src",
+    "start": "node index.js",
+    "start-without-index": "json-server db.json --port 80 --static src",
     "test": "npm run lint && npm run check",
     "update": "npx npm-check-updates -u"
   },
