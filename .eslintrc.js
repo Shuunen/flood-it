@@ -1,24 +1,16 @@
+const rules = require('./.eslintrc.rules')
+
 module.exports = {
+  root: true,
   env: {
-    browser: true,
-    commonjs: true,
-    es6: true
+    node: true,
   },
   extends: [
-    'plugin:vue/essential',
-    'standard'
+    'plugin:vue/recommended',
+    '@vue/standard',
   ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
-  },
+  rules,
   parserOptions: {
-    ecmaVersion: 2018
+    ecmaVersion: 2020,
   },
-  plugins: [
-    'vue'
-  ],
-  rules: {
-    'no-console': 'error'
-  }
 }

@@ -1,34 +1,82 @@
-/* global Vue */
-// eslint-disable-next-line no-new
-new Vue({
-  el: '#game',
-  data: {
-    title: 'Flood-it',
-    version: '0.2.0',
-    baseColor: null,
-    floodColor: null,
-    highScores: null,
-    endpoint: '',
-    moves: 0,
-    player: '',
-    seed: '',
-    seedFormat: /(\d+)x(\d+)_(\d+)/,
-    dbEnabled: false,
-    askPlayer: false,
-    askPlayerRules: false,
-    gameEnded: false,
-    sameScore: false,
-    scoreSubmitted: false,
-    size: {
-      x: 7,
-      y: 7
-    },
-    colors: ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
+<template>
+  <div id="game" :class="gameEnded ? 'game-ended' : ''">
+    <h1>{{ title }}</h1>
+    <div class="moves">{{ player ? player : 'Unknown hero' }} : {{ moves }} moves</div>
+    <div class="grid">
+      <div v-for="yi in size.y" :key="yi" class="row">
+        <div v-for="xi in size.x" :id="xi + '' + yi" :key="xi" class="cell" @click="onCellClick">{{ xi }} / {{ yi }}</div>
+      </div>
+    </div>
+    <div v-show="gameEnded">
+      <br>
+      <h3>You win in {{ moves }} moves {{ sameScore ? 'again ' : '' }} !</h3>
+      <small v-show="scoreSubmitted">Score has been submitted.</small>
+      <div v-show="askPlayer && !scoreSubmitted">
+        <p>
+          You want to be in the high-scores ?
+          <br>What's your name ?
+        </p>
+        <form id="askPlayerForm" @submit.prevent="postScore">
+          <input v-model="player" type="text" placeholder="hero name" minlength="3" maxlength="10" @focus="askPlayerRules = true">
+          <input type="submit" value="Send !" @click="setStorage">
+          <ul v-show="askPlayerRules" class="rules">
+            <li v-show="!player || !player.length">Name cannot be empty.</li>
+            <li v-show="player.length < 3 || player.length > 10">Name should be between 3 & 10 characters long.</li>
+          </ul>
+        </form>
+      </div>
+    </div>
+    <div class="footer">
+      <div v-if="dbEnabled" class="high-scores">
+        <strong>High-scores</strong>
+        <ol>
+          <li v-for="highScore in highScores" v-show="highScore.player" :key="highScore.player + highScore.score">{{ highScore.player }} : {{ highScore.score }}</li>
+        </ol>
+        <em v-if="!highScores || !highScores.length">No high-scores for this grid yet, do your best !</em>
+      </div>
+      <div class="menu">
+        <button class="btn" @click="restartGame">Restart</button>
+        <button class="btn" @click="useSeed">Use seed</button>
+        <button class="btn" @click="newGame">New game</button>
+      </div>
+      <p class="seed">Game seed : {{ seed }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data: function () {
+    return {
+      title: 'Flood-it',
+      version: '0.2.0',
+      baseColor: null,
+      floodColor: null,
+      highScores: null,
+      endpoint: '',
+      moves: 0,
+      player: '',
+      seed: '',
+      seedFormat: /(\d+)x(\d+)_(\d+)/,
+      dbEnabled: false,
+      askPlayer: false,
+      askPlayerRules: false,
+      gameEnded: false,
+      sameScore: false,
+      scoreSubmitted: false,
+      size: {
+        x: 7,
+        y: 7,
+      },
+      colors: ['royalblue', 'deeppink', 'chartreuse', 'darkorange'],
+    }
+  },
+  mounted () {
+    this.log('app init')
+    this.init()
   },
   methods: {
     init: function () {
-      this.dbEnabled = true
-      // this.endpoint = document.location.origin.replace(':' + document.location.port, '') + ':' + this.port;
       this.getSeedFromUrl()
       this.getStorage()
       this.newGame()
@@ -54,11 +102,9 @@ new Vue({
       this.restartGame()
     },
     log (str) {
-      // eslint-disable-next-line no-console
       console.log(str)
     },
     error (str) {
-      // eslint-disable-next-line no-console
       console.error(str)
     },
     getSeedFromUrl: function () {
@@ -185,7 +231,7 @@ new Vue({
           this.db('post', '/scores', {
             player: this.player,
             score: this.moves,
-            seed: this.seed
+            seed: this.seed,
           })
           this.scoreSubmitted = true
           // delay score refresh to let db changes appears
@@ -197,7 +243,7 @@ new Vue({
       this.log('setStorage')
       localStorage.floodIt = JSON.stringify({
         player: this.player,
-        seed: this.seed
+        seed: this.seed,
       })
     },
     getStorage: function () {
@@ -313,19 +359,195 @@ new Vue({
     },
     db: function (method, url, payload) {
       var options = {
-        method: method
+        method: method,
       }
       if (payload) {
         options.body = JSON.stringify(payload)
         options.headers = {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         }
       }
       return fetch(this.endpoint + url, options).then((res) => res.json())
-    }
+    },
   },
-  mounted () {
-    this.log('app init')
-    this.init()
+}
+</script>
+
+<style>
+html * {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: darkslategrey;
+  color: snow;
+  font-family: monospace;
+  font-size: 16px;
+  margin: 0;
+  padding-top: 2vw;
+  text-align: center;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+h1 {
+  font-size: 30px;
+  letter-spacing: -4px;
+  margin: 2vw 0;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+.btn {
+  background: none;
+  border: 1px solid;
+  border-radius: 3px;
+  color: inherit;
+  cursor: pointer;
+  font-size: 20px;
+  margin-bottom: 6px;
+  opacity: .6;
+  padding: 6px 12px;
+  text-decoration: none;
+  transition: .3s opacity;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.grid {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin-top: 4vw;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  color: gray;
+  cursor: pointer;
+  font-size: 0;
+  height: 14vw;
+  line-height: 50px;
+  max-height: 50px;
+  max-width: 50px;
+  opacity: 1;
+  transition: .3s background-color, .3s opacity;
+  width: 14vw;
+}
+
+.cell:hover {
+  opacity: .8;
+}
+
+.game-ended .cell {
+  animation: win 1s linear infinite;
+  animation-direction: alternate;
+}
+
+@keyframes win {
+  0% {
+    transform: scale(1);
   }
-})
+  50% {
+    transform: scale(.9);
+  }
+  100% {
+    transform: scale(1) rotate(90deg);
+  }
+}
+
+.header {
+  display: flex;
+  height: 12vw;
+  justify-content: space-around;
+  max-height: 50px;
+}
+
+.footer {
+  color: wheat;
+  font-size: 10px;
+  margin-top: auto;
+  padding: 15px;
+}
+
+.high-scores {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  line-height: 25px;
+  margin-bottom: 20px;
+}
+
+.high-scores strong {
+  font-size: 20px;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+  padding-bottom: 11px;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.high-scores strong::before,
+.high-scores strong::after {
+  background-color: currentColor;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: calc(50% - 10px);
+  position: absolute;
+  transform: rotate(30deg);
+  width: 20px;
+}
+
+.high-scores strong::after {
+  transform: rotate(-30deg);
+}
+
+.high-scores ol {
+  margin: auto;
+  padding-left: 28px;
+  text-align: left;
+}
+
+#askPlayerForm .rules {
+  color: darkseagreen;
+  padding: 0;
+  width: 100%;
+}
+
+#askPlayerForm .rules li {
+  list-style: none;
+}
+
+input {
+  border: none;
+  border-radius: 3px;
+  padding: 8px 12px;
+}
+
+input[type="submit"] {
+  cursor: pointer;
+}
+
+.seed {
+  word-break: break-word;
+}
+</style>

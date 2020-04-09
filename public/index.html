@@ -1,55 +1,17 @@
-<html>
-
-<head>
-    <title>Flood-it</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <link rel="stylesheet" href="game.css">
-</head>
-
-<body>
-    <div id="game" v-bind:class="gameEnded ? 'game-ended' : ''">
-        <h1>{{ title }}</h1>
-        <div class="moves">{{ player ? player : 'Unknown hero' }} : {{ moves }} moves</div>
-        <div class="grid">
-            <div class="row" v-for="yi in size.y">
-                <div class="cell" v-for="xi in size.x" v-bind:id="xi + '' + yi" v-on:click="onCellClick">{{ xi }} / {{ yi }}</div>
-            </div>
-        </div>
-        <div v-show="gameEnded">
-            <br>
-            <h3>You win in {{ moves }} moves {{ sameScore ? 'again ' : '' }} !</h3>
-            <small v-show="scoreSubmitted">Score has been submitted.</small>
-            <div v-show="askPlayer && !scoreSubmitted">
-                <p>You want to be in the high-scores ?<br>What's your name ?</p>
-                <form id="askPlayerForm" v-on:submit.prevent="postScore">
-                    <input type="text" v-model="player" placeholder="hero name" minlength="3" maxlength="10" v-on:focus="askPlayerRules = true">
-                    <input type="submit" value="Send !" v-on:click="setStorage">
-                    <ul v-show="askPlayerRules" class="rules">
-                        <li v-show="!player || !player.length">Name cannot be empty.</li>
-                        <li v-show="player.length < 3 || player.length > 10">Name should be between 3 & 10 characters long.</li>
-                    </ul>
-                </form>
-            </div>
-        </div>
-        <div class="footer">
-            <div class="high-scores" v-if="dbEnabled">
-                <strong>High-scores</strong>
-                <ol>
-                    <li v-for="highScore in highScores" v-if="highScore.player">{{ highScore.player }} : {{ highScore.score }}</li>
-                </ol>
-                <em v-if="!highScores || !highScores.length">No high-scores for this grid yet, do your best !</em>
-            </div>
-            <div class="menu">
-                <button class="btn" v-on:click="restartGame">Restart</button>
-                <button class="btn" v-on:click="useSeed">Use seed</button>
-                <button class="btn" v-on:click="newGame">New game</button>
-            </div>
-            <p class="seed">Game seed : {{ seed }}</p>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <script src="game.js"></script>
-</body>
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>
