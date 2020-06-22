@@ -3,8 +3,8 @@
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "description": "A flood it game",
   "devDependencies": {
-    "@vue/cli-plugin-eslint": "4.4.4",
-    "@vue/cli-service": "4.4.4",
+    "@vue/cli-plugin-eslint": "4.4.5",
+    "@vue/cli-service": "4.4.5",
     "@vue/eslint-config-standard": "5.1.2",
     "eslint": "7.3.0",
     "eslint-plugin-import": "2.21.2",
