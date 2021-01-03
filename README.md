@@ -18,5 +18,5 @@
 - [Npm-run-all](https://github.com/mysticatea/npm-run-all) : to keep my npm scripts clean & readable
 - [Repo-checker](https://github.com/Shuunen/repo-checker) : eslint cover /src code and this tool the rest ^^
 - [Shields.io](https://shields.io) : for the nice badges on top of this readme
-- [travis-ci.com](https://travis-ci.com) : for providing free continuous deployments
+- [Travis-ci.com](https://travis-ci.com) : for providing free continuous deployments
 - [Vue](https://vuejs.org) : when I need a front framework, this is the one I choose <3
