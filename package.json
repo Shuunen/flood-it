@@ -6,7 +6,7 @@
     "@vue/cli-plugin-eslint": "4.5.12",
     "@vue/cli-service": "4.5.12",
     "@vue/eslint-config-standard": "6.0.0",
-    "eslint": "7.24.0",
+    "eslint": "7.25.0",
     "eslint-plugin-html": "6.1.2",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
