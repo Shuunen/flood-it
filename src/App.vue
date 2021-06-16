@@ -1,24 +1,24 @@
 <template>
   <div id="game" :class="gameEnded ? 'game-ended' : ''">
     <h1>{{ title }}</h1>
-    <div class="moves">{{ player ? player : 'Unknown hero' }} : {{ moves }} moves</div>
+    <div class="moves">{{ player ? player : "Unknown hero" }} : {{ moves }} moves</div>
     <div class="grid">
       <div v-for="yi in size.y" :key="yi" class="row">
         <div v-for="xi in size.x" :id="xi + '' + yi" :key="xi" class="cell" @click="onCellClick">{{ xi }} / {{ yi }}</div>
       </div>
     </div>
     <div v-show="gameEnded">
-      <br>
-      <h3>You win in {{ moves }} moves {{ sameScore ? 'again ' : '' }} !</h3>
+      <br />
+      <h3>You win in {{ moves }} moves {{ sameScore ? "again " : "" }} !</h3>
       <small v-show="scoreSubmitted">Score has been submitted.</small>
       <div v-show="askPlayer && !scoreSubmitted">
         <p>
           You want to be in the high-scores ?
-          <br>What's your name ?
+          <br />What's your name ?
         </p>
         <form id="askPlayerForm" @submit.prevent="postScore">
-          <input v-model="player" type="text" placeholder="hero name" minlength="3" maxlength="10" @focus="askPlayerRules = true">
-          <input type="submit" value="Send !" @click="setStorage">
+          <input v-model="player" type="text" placeholder="hero name" minlength="3" maxlength="10" @focus="askPlayerRules = true" />
+          <input type="submit" value="Send !" @click="setStorage" />
           <ul v-show="askPlayerRules" class="rules">
             <li v-show="!player || !player.length">Name cannot be empty.</li>
             <li v-show="player.length < 3 || player.length > 10">Name should be between 3 & 10 characters long.</li>
@@ -30,7 +30,9 @@
       <div v-if="dbEnabled" class="high-scores">
         <strong>High-scores</strong>
         <ol>
-          <li v-for="highScore in highScores" v-show="highScore.player" :key="highScore.player + highScore.score">{{ highScore.player }} : {{ highScore.score }}</li>
+          <li v-for="highScore in highScores" v-show="highScore.player" :key="highScore.player + highScore.score">
+            {{ highScore.player }} : {{ highScore.score }}
+          </li>
         </ol>
         <em v-if="!highScores || !highScores.length">No high-scores for this grid yet, do your best !</em>
       </div>
@@ -46,7 +48,7 @@
 
 <script>
 export default {
-  data: function () {
+  data: function() {
     return {
       title: 'Flood-it',
       version: '0.2.0',
@@ -76,12 +78,12 @@ export default {
     this.init()
   },
   methods: {
-    init: function () {
+    init: function() {
       this.getSeedFromUrl()
       this.getStorage()
       this.newGame()
     },
-    newGame: function (newSeed) {
+    newGame: function(newSeed) {
       this.gameEnded = false
       this.sameScore = false
       this.scoreSubmitted = false
@@ -93,10 +95,10 @@ export default {
       setTimeout(() => this.setGrid(), 200)
       this.getHighScores()
     },
-    restartGame: function () {
+    restartGame: function() {
       this.newGame()
     },
-    useSeed: function () {
+    useSeed: function() {
       var seed = window.prompt('Please insert the seed you want to play')
       this.setSeed(seed)
       this.restartGame()
@@ -107,7 +109,7 @@ export default {
     error (str) {
       console.error(str)
     },
-    getSeedFromUrl: function () {
+    getSeedFromUrl: function() {
       var hash = document.location.hash
       var matches = hash.match(this.seedFormat)
       if (matches && matches.length === 4) {
@@ -126,7 +128,7 @@ export default {
         this.setSeed(seed, true)
       }
     },
-    getSeed: function () {
+    getSeed: function() {
       this.log('getSeed')
       var seed = this.size.x + 'x' + this.size.y + '_'
       var nbColors = this.colors.length
@@ -135,7 +137,7 @@ export default {
       }
       return seed
     },
-    setSeed: function (seed, avoidSetStorage) {
+    setSeed: function(seed, avoidSetStorage) {
       this.log('setSeed')
       // use or create a new seed
       this.seed = seed || this.getSeed()
@@ -154,22 +156,22 @@ export default {
       // put it in url
       document.location.hash = this.seed
     },
-    firstCap: function (str) {
+    firstCap: function(str) {
       str = (str + '')
       str = str.toLowerCase()
       str = str[0].toUpperCase() + str.slice(1)
       return str
     },
-    getRandBetween: function (min, max) {
+    getRandBetween: function(min, max) {
       min = Math.ceil(min)
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min + 1)) + min
     },
-    getOneIn: function (arr) {
+    getOneIn: function(arr) {
       var pos = this.getRandBetween(0, arr.length - 1)
       return arr[pos]
     },
-    setGrid: function () {
+    setGrid: function() {
       // this.seed = '7x7_3200013120203221020122022130221111223000303132131'
       // seed = '3200013120203221020122022130221111223000303132131'
       var seed = this.seed.split('_')[1]
@@ -189,13 +191,13 @@ export default {
         }
       }
     },
-    getHighScores: function () {
+    getHighScores: function() {
       if (!this.dbEnabled) {
         return
       }
       this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=15').then((highScores) => this.setHighScores(highScores))
     },
-    setHighScores: function (highScores) {
+    setHighScores: function(highScores) {
       var lastPlayer
       var lastScore
       var nbScores = 1
@@ -219,7 +221,7 @@ export default {
       })
       this.highScores = highScores
     },
-    postScore: function () {
+    postScore: function() {
       if (!this.dbEnabled) {
         return
       }
@@ -239,14 +241,14 @@ export default {
         }
       })
     },
-    setStorage: function () {
+    setStorage: function() {
       this.log('setStorage')
       localStorage.floodIt = JSON.stringify({
         player: this.player,
         seed: this.seed,
       })
     },
-    getStorage: function () {
+    getStorage: function() {
       this.log('getStorage')
       try {
         var data = JSON.parse(localStorage.floodIt)
@@ -259,7 +261,7 @@ export default {
         this.setSeed()
       }
     },
-    getCell: function (x, y, noWarn) {
+    getCell: function(x, y, noWarn) {
       var cell = document.getElementById(x + '' + y)
       if (!cell) {
         if (!noWarn) {
@@ -269,19 +271,19 @@ export default {
       }
       return cell
     },
-    getCellColor: function (x, y) {
+    getCellColor: function(x, y) {
       var cell = this.getCell(x, y)
       return cell.style.backgroundColor
     },
-    colorCell: function (x, y, color) {
+    colorCell: function(x, y, color) {
       var cell = this.getCell(x, y)
       cell.style.backgroundColor = color
     },
-    onCellClick: function (event) {
+    onCellClick: function(event) {
       this.floodColor = event.target.style.backgroundColor
       this.flood()
     },
-    flood: function () {
+    flood: function() {
       this.baseColor = this.getCellColor(1, 1)
       if (this.baseColor === this.floodColor) {
         // if asked color is the same as base color
@@ -291,7 +293,7 @@ export default {
       this.moves++
       this.floodCell(1, 1)
     },
-    floodCell: function (x, y) {
+    floodCell: function(x, y) {
       var cell = this.getCell(x, y, true)
       if (!cell) {
         return
@@ -305,7 +307,7 @@ export default {
         this.checkEnd()
       }
     },
-    checkEnd: function () {
+    checkEnd: function() {
       if (this.gameEnded) {
         // avoid multiple sync calls when game is ended
         return
@@ -337,7 +339,7 @@ export default {
         }
       }, 200)
     },
-    onGameEnded: function () {
+    onGameEnded: function() {
       this.log('game ended')
       this.gameEnded = true
       /* TODO : check if player beat high score
@@ -357,7 +359,7 @@ export default {
         this.askPlayer = true
       }
     },
-    db: function (method, url, payload) {
+    db: function(method, url, payload) {
       var options = {
         method: method,
       }
@@ -372,7 +374,6 @@ export default {
   },
 }
 </script>
-
 <style>
 html * {
   box-sizing: border-box;
@@ -465,9 +466,11 @@ h3 {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(.9);
   }
+
   100% {
     transform: scale(1) rotate(90deg);
   }

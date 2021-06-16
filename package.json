@@ -3,20 +3,11 @@
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "description": "A flood it game",
   "devDependencies": {
-    "@vue/cli-plugin-eslint": "4.5.13",
-    "@vue/cli-service": "4.5.13",
-    "@vue/eslint-config-standard": "6.0.0",
-    "eslint": "7.28.0",
-    "eslint-plugin-html": "6.1.2",
-    "eslint-plugin-import": "2.23.4",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "5.1.0",
-    "eslint-plugin-standard": "4.1.0",
-    "eslint-plugin-vue": "7.11.1",
-    "npm-run-all": "4.1.5",
+    "@vitejs/plugin-vue": "1.2.3",
+    "@vue/compiler-sfc": "3.1.1",
     "repo-check": "1.17.0",
-    "vue": "2.6.14",
-    "vue-template-compiler": "2.6.14"
+    "vite": "2.3.7",
+    "vue": "3.1.1"
   },
   "files": [
     "public"
@@ -34,16 +25,13 @@
     "url": "https://github.com/Shuunen/flood-it.git"
   },
   "scripts": {
-    "build": "vue-cli-service build",
+    "build": "vite build",
     "check": "repo-check",
-    "ci": "run-s check lint build test",
-    "dev": "vue-cli-service serve",
-    "lint": "eslint --fix --ignore-path .gitignore --ext .js,.vue,.html .",
+    "dev": "vite",
     "postversion": "git push && git push --tags",
-    "preversion": "npm run ci",
-    "start": "npm run dev",
-    "test": "echo no tests yet",
-    "update": "npx npm-check-updates -u"
+    "preversion": "npm run build",
+    "serve": "vite preview",
+    "test": "echo no tests yet"
   },
   "version": "1.0.0"
 }
