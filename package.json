@@ -4,10 +4,10 @@
   "description": "A flood it game",
   "devDependencies": {
     "@vitejs/plugin-vue": "1.4.0",
-    "@vue/compiler-sfc": "3.1.5",
+    "@vue/compiler-sfc": "3.2.1",
     "shuunen-stack": "0.11.1",
     "vite": "2.4.4",
-    "vue": "3.1.5"
+    "vue": "3.2.1"
   },
   "files": [
     "public"
