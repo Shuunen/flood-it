@@ -3,7 +3,7 @@
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "description": "A flood it game",
   "devDependencies": {
-    "@vitejs/plugin-vue": "1.8.1",
+    "@vitejs/plugin-vue": "1.9.0",
     "@vue/compiler-sfc": "3.2.13",
     "shuunen-stack": "0.11.1",
     "vite": "2.5.10",
