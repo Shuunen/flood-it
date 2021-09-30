@@ -6,7 +6,7 @@
     "@vitejs/plugin-vue": "1.9.2",
     "@vue/compiler-sfc": "3.2.19",
     "shuunen-stack": "0.12.1",
-    "vite": "2.6.1",
+    "vite": "2.6.2",
     "vue": "3.2.19"
   },
   "files": [
