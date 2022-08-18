@@ -4,7 +4,7 @@
     <div class="moves">{{ player ? player : "Unknown hero" }} : {{ moves }} moves</div>
     <div class="grid">
       <div v-for="yi in size.y" :key="yi" class="row">
-        <div v-for="xi in size.x" :id="xi + '' + yi" :key="xi" class="cell" @click="onCellClick">{{ xi }} / {{ yi }}</div>
+        <div v-for="xi in size.x" :id="'cell-' + xi + '' + yi" :key="xi" class="cell" @click="onCellClick">{{ xi }} / {{ yi }}</div>
       </div>
     </div>
     <div v-show="gameEnded">
@@ -20,7 +20,7 @@
           <input v-model="player" type="text" placeholder="hero name" minlength="3" maxlength="10" @focus="askPlayerRules = true" />
           <input type="submit" value="Send !" @click="setStorage" />
           <ul v-show="askPlayerRules" class="rules">
-            <li v-show="!player || !player.length">Name cannot be empty.</li>
+            <li v-show="!player || player.length === 0">Name cannot be empty.</li>
             <li v-show="player.length < 3 || player.length > 10">Name should be between 3 & 10 characters long.</li>
           </ul>
         </form>
@@ -34,7 +34,7 @@
             {{ highScore.player }} : {{ highScore.score }}
           </li>
         </ol>
-        <em v-if="!highScores || !highScores.length">No high-scores for this grid yet, do your best !</em>
+        <em v-if="!highScores || highScores.length === 0">No high-scores for this grid yet, do your best !</em>
       </div>
       <div class="menu">
         <button class="btn" @click="restartGame">Restart</button>
@@ -46,174 +46,152 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Seed, FetchOptions } from './models'
+
+const SEED_FORMAT = /(\d+)x(\d+)_(\d+)/
+
 export default {
-  data: function() {
-    return {
-      title: 'Flood-it',
-      version: '0.2.0',
-      baseColor: null,
-      floodColor: null,
-      highScores: null,
-      endpoint: '',
-      moves: 0,
-      player: '',
-      seed: '',
-      seedFormat: /(\d+)x(\d+)_(\d+)/,
-      dbEnabled: false,
-      askPlayer: false,
-      askPlayerRules: false,
-      gameEnded: false,
-      sameScore: false,
-      scoreSubmitted: false,
-      size: {
-        x: 7,
-        y: 7,
-      },
-      colors: ['royalblue', 'deeppink', 'chartreuse', 'darkorange'],
-    }
-  },
-  mounted () {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  data: () => ({
+    title: 'Flood-it',
+    version: '0.2.0',
+    baseColor: undefined,
+    floodColor: undefined,
+    highScores: undefined,
+    endpoint: '',
+    moves: 0,
+    player: '',
+    seed: '',
+    dbEnabled: false,
+    askPlayer: false,
+    askPlayerRules: false,
+    gameEnded: false,
+    sameScore: false,
+    scoreSubmitted: false,
+    size: {
+      x: 7,
+      y: 7,
+    },
+    colors: ['royalblue', 'deeppink', 'chartreuse', 'darkorange'],
+  }),
+  mounted (): void {
     this.log('app init')
     this.init()
   },
   methods: {
-    init: function() {
+    init (): void {
       this.getSeedFromUrl()
       this.getStorage()
       this.newGame()
     },
-    newGame: function(newSeed) {
+    newGame (newSeed): void {
       this.gameEnded = false
       this.sameScore = false
       this.scoreSubmitted = false
       this.moves = 0
-      if (newSeed) {
-        this.setSeed()
-      }
+      if (newSeed) this.setSeed()
       // delay grid colorize to let dom build cells
       setTimeout(() => this.setGrid(), 200)
       this.getHighScores()
     },
-    restartGame: function() {
+    restartGame (): void {
       this.newGame()
     },
-    useSeed: function() {
-      var seed = window.prompt('Please insert the seed you want to play')
+    useSeed (): void {
+      const seed = window.prompt('Please insert the seed you want to play')
       this.setSeed(seed)
       this.restartGame()
     },
-    log (str) {
+    log (str): void {
       console.log(str)
     },
-    error (str) {
+    error (str): void {
       console.error(str)
     },
-    getSeedFromUrl: function() {
-      var hash = document.location.hash
-      var matches = hash.match(this.seedFormat)
+    getSeedFromUrl (): void {
+      const hash = document.location.hash
+      const matches = hash.match(SEED_FORMAT)
       if (matches && matches.length === 4) {
-        this.size.x = parseInt(matches[1])
-        this.size.y = parseInt(matches[2])
-        var seed = matches[0] // seed is the all match "7x7_1234"
+        this.size.x = Number.parseInt(matches[1])
+        this.size.y = Number.parseInt(matches[2])
+        let seed = matches[0] // seed is the all match "7x7_1234"
         this.log('detected seed in url : ' + seed)
-        var seedSize = matches[3].length
+        let seedSize = matches[3].length
         while (seedSize < (this.size.x * this.size.y)) {
           seed += this.getRandBetween(0, this.colors.length - 1)
           seedSize++
         }
-        if (seed !== matches[0]) {
-          this.log('seed in url has been fixed')
-        }
+        if (seed !== matches[0]) this.log('seed in url has been fixed')
         this.setSeed(seed, true)
       }
     },
-    getSeed: function() {
+    getSeed (): Seed {
       this.log('getSeed')
-      var seed = this.size.x + 'x' + this.size.y + '_'
-      var nbColors = this.colors.length
-      for (var i = 0; i < this.size.x * this.size.y; i++) {
-        seed += this.getRandBetween(0, nbColors - 1)
-      }
+      let seed = this.size.x + 'x' + this.size.y + '_'
+      const nbColors = this.colors.length
+      for (let index = 0; index < this.size.x * this.size.y; index++) seed += this.getRandBetween(0, nbColors - 1)
       return seed
     },
-    setSeed: function(seed, avoidSetStorage) {
+    setSeed (seed, avoidSetStorage): void {
       this.log('setSeed')
-      // use or create a new seed
-      this.seed = seed || this.getSeed()
-      // update size
-      var matches = this.seed.match(this.seedFormat)
-      if (matches && matches.length === 4) {
-        this.size.x = parseInt(matches[1])
-        this.size.y = parseInt(matches[2])
-      } else {
-        this.error('seed format seems to be incorrect')
-      }
-      if (!avoidSetStorage) {
-        // keep it in storage
-        this.setStorage()
-      }
-      // put it in url
-      document.location.hash = this.seed
+      this.seed = seed || this.getSeed() // use or create a new seed
+      const matches = this.seed.match(SEED_FORMAT) // update size
+      if (!matches || matches.length !== 4) return this.error('seed format seems to be incorrect')
+      this.size.x = Number.parseInt(matches[1])
+      this.size.y = Number.parseInt(matches[2])
+      if (!avoidSetStorage) this.setStorage() // keep it in storage
+      document.location.hash = this.seed // put it in url
     },
-    firstCap: function(str) {
+    firstCap (str): string {
       str = (str + '')
       str = str.toLowerCase()
       str = str[0].toUpperCase() + str.slice(1)
       return str
     },
-    getRandBetween: function(min, max) {
+    getRandBetween (min, max): number {
       min = Math.ceil(min)
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min + 1)) + min
     },
-    getOneIn: function(arr) {
-      var pos = this.getRandBetween(0, arr.length - 1)
-      return arr[pos]
+    getOneIn (array): void {
+      const pos = this.getRandBetween(0, array.length - 1)
+      return array[pos]
     },
-    setGrid: function() {
+    setGrid (): void {
       // this.seed = '7x7_3200013120203221020122022130221111223000303132131'
       // seed = '3200013120203221020122022130221111223000303132131'
-      var seed = this.seed.split('_')[1]
-      for (var yi = 1; yi <= this.size.y; yi++) {
-        for (var xi = 1; xi <= this.size.x; xi++) {
-          var i = seed[0]
-          var color = 'red'
-          if (i !== undefined && this.colors[i]) {
-            color = this.colors[i]
-          } else {
-            // we reach end of seed & i is undefined, we should have a complete seed before coming here
-            this.error('incomplete seed')
-          }
+      let seed = this.seed.split('_')[1]
+      for (let yi = 1; yi <= this.size.y; yi++)
+        for (let xi = 1; xi <= this.size.x; xi++) {
+          const index = seed[0]
+          let color = 'red'
+          if (index !== undefined && this.colors[index]) color = this.colors[index]
+          else this.error('incomplete seed') // we reach end of seed & i is undefined, we should have a complete seed before coming here
           // seed = '200013120203221020122022130221111223000303132131'
-          seed = seed.substr(1)
+          seed = seed.slice(1)
           this.colorCell(xi, yi, color)
         }
-      }
     },
-    getHighScores: function() {
-      if (!this.dbEnabled) {
-        return
-      }
+    getHighScores (): void {
+      if (!this.dbEnabled) return
       this.db('get', '/scores?seed=' + this.seed + '&_sort=score&_order=ASC&_limit=15').then((highScores) => this.setHighScores(highScores))
     },
-    setHighScores: function(highScores) {
-      var lastPlayer
-      var lastScore
-      var nbScores = 1
-      var nbScoresMax = 5
+    setHighScores (highScores): void {
+      let lastPlayer
+      let lastScore
+      let nbScores = 1
+      const nbScoresMax = 5
       highScores.forEach((highScore, index) => {
         if (nbScores > nbScoresMax) {
-          highScore.player = null
+          highScore.player = undefined
           return
         }
         if (lastScore === highScore.score) {
-          var lastIndex = index - 1
-          while (highScores[lastIndex].player === null) { lastIndex-- }
-          if (!lastPlayer || lastPlayer.indexOf(highScore.player) === -1) {
-            lastPlayer = highScores[lastIndex].player = highScores[lastIndex].player + ', ' + highScore.player
-          }
-          highScore.player = null
+          let lastIndex = index - 1
+          while (highScores[lastIndex].player === null) lastIndex--
+          if (!lastPlayer || !lastPlayer.includes(highScore.player)) lastPlayer = highScores[lastIndex].player = highScores[lastIndex].player + ', ' + highScore.player
+          highScore.player = undefined
           nbScores--
         }
         lastScore = highScore.score
@@ -221,10 +199,8 @@ export default {
       })
       this.highScores = highScores
     },
-    postScore: function() {
-      if (!this.dbEnabled) {
-        return
-      }
+    postScore (): void {
+      if (!this.dbEnabled) return
       this.db('get', '/scores?player=' + this.player + '&score=' + this.moves + '&seed=' + this.seed).then((sameScore) => {
         // check if player / score / seed combo does not already exists
         this.sameScore = (sameScore.length > 0)
@@ -241,63 +217,55 @@ export default {
         }
       })
     },
-    setStorage: function() {
+    setStorage (): void {
       this.log('setStorage')
       localStorage.floodIt = JSON.stringify({
         player: this.player,
         seed: this.seed,
       })
     },
-    getStorage: function() {
+    getStorage (): void {
       this.log('getStorage')
       try {
-        var data = JSON.parse(localStorage.floodIt)
+        const data = JSON.parse(localStorage.floodIt)
         this.player = data.player
         // if this.seed is empty, take the one in storage
-        if (this.seed === '') {
-          this.setSeed(data.seed, true)
-        }
-      } catch (error) {
+        if (this.seed === '') this.setSeed(data.seed, true)
+      } catch {
         this.setSeed()
       }
     },
-    getCell: function(x, y, noWarn) {
-      var cell = document.getElementById(x + '' + y)
+    getCell (x, y, noWarn): Element | undefined {
+      const cell = document.querySelector(`#cell-${x}${y}`)
       if (!cell) {
-        if (!noWarn) {
-          this.error('no cell found on pos x/y : ' + x + '/' + y)
-        }
+        if (!noWarn) this.error('no cell found on pos x/y : ' + x + '/' + y)
         return
       }
       return cell
     },
-    getCellColor: function(x, y) {
-      var cell = this.getCell(x, y)
+    getCellColor (x, y): string {
+      const cell = this.getCell(x, y)
       return cell.style.backgroundColor
     },
-    colorCell: function(x, y, color) {
-      var cell = this.getCell(x, y)
+    colorCell (x, y, color): void {
+      const cell = this.getCell(x, y)
       cell.style.backgroundColor = color
     },
-    onCellClick: function(event) {
+    onCellClick (event): void {
       this.floodColor = event.target.style.backgroundColor
       this.flood()
     },
-    flood: function() {
+    flood (): void {
       this.baseColor = this.getCellColor(1, 1)
-      if (this.baseColor === this.floodColor) {
-        // if asked color is the same as base color
-        return
-      }
+      // if asked color is the same as base color
+      if (this.baseColor === this.floodColor) return
       this.log(`base is "${this.baseColor}" & user asked to flood with "${this.floodColor}"`)
       this.moves++
       this.floodCell(1, 1)
     },
-    floodCell: function(x, y) {
-      var cell = this.getCell(x, y, true)
-      if (!cell) {
-        return
-      }
+    floodCell (x, y): void {
+      const cell = this.getCell(x, y, true)
+      if (!cell) return
       if (cell.style.backgroundColor === this.baseColor) {
         cell.style.backgroundColor = this.floodColor
         this.floodCell(x - 1, y)
@@ -307,39 +275,27 @@ export default {
         this.checkEnd()
       }
     },
-    checkEnd: function() {
-      if (this.gameEnded) {
-        // avoid multiple sync calls when game is ended
-        return
-      }
+    checkEnd (): void {
+      // avoid multiple sync calls when game is ended
+      if (this.gameEnded) return
       setTimeout(() => {
-        if (this.gameEnded) {
-          // avoid multiple async calls when game is ended
-          return
-        }
-        var gameEnded = true
-        for (var yi = 1; yi <= this.size.y; yi++) {
-          for (var xi = 1; xi <= this.size.x; xi++) {
-            if (gameEnded === false) {
-              // avoid parsing further cols when game is ended
-              break
-            }
-            var color = this.getCellColor(xi, yi)
-            if (this.floodColor !== color) {
-              gameEnded = false
-            }
+        // avoid multiple async calls when game is ended
+        if (this.gameEnded) return
+        let gameEnded = true
+        for (let yi = 1; yi <= this.size.y; yi++) {
+          for (let xi = 1; xi <= this.size.x; xi++) {
+            // avoid parsing further cols when game is ended
+            if (gameEnded === false) break
+            const color = this.getCellColor(xi, yi)
+            if (this.floodColor !== color) gameEnded = false
           }
-          if (gameEnded === false) {
-            // avoid parsing further rows when game is ended
-            break
-          }
+          // avoid parsing further rows when game is ended
+          if (gameEnded === false) break
         }
-        if (gameEnded) {
-          this.onGameEnded()
-        }
+        if (gameEnded) this.onGameEnded()
       }, 200)
     },
-    onGameEnded: function() {
+    onGameEnded (): void {
       this.log('game ended')
       this.gameEnded = true
       /* TODO : check if player beat high score
@@ -350,17 +306,12 @@ export default {
           this.best = this.moves;
       }
       */
-      if (!this.dbEnabled) {
-        return
-      }
-      if (this.player.length) {
-        this.postScore()
-      } else {
-        this.askPlayer = true
-      }
+      if (!this.dbEnabled) return
+      if (this.player.length > 0) this.postScore()
+      else this.askPlayer = true
     },
-    db: function(method, url, payload) {
-      var options = {
+    db (method, url, payload): Promise<unknown> {
+      const options: FetchOptions = {
         method: method,
       }
       if (payload) {
@@ -369,11 +320,12 @@ export default {
           'Content-Type': 'application/json',
         }
       }
-      return fetch(this.endpoint + url, options).then((res) => res.json())
+      return fetch(this.endpoint + url, options).then(response => response.json())
     },
   },
 }
 </script>
+
 <style>
 html * {
   box-sizing: border-box;
