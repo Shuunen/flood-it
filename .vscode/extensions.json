@@ -1,5 +1,16 @@
 {
   "recommendations": [
-    "octref.vetur"
+    "aaron-bond.better-comments",
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "lzp.svg-preview-in-code",
+    "michelemelluso.gitignore",
+    "mikeburgh.xml-format",
+    "richie5um2.vscode-sort-json",
+    "ryanluker.vscode-coverage-gutters",
+    "streetsidesoftware.code-spell-checker",
+    "vue.volar",
+    "yzhang.markdown-all-in-one"
   ]
 }
