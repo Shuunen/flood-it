@@ -7,7 +7,7 @@
     "@types/node": "18",
     "@typescript-eslint/eslint-plugin": "5",
     "@typescript-eslint/parser": "5",
-    "@vitejs/plugin-vue": "3.1",
+    "@vitejs/plugin-vue": "3.2",
     "@vue/eslint-config-typescript": "11",
     "eslint": "8.26",
     "eslint-plugin-html": "7",
