@@ -9,7 +9,7 @@
     "@typescript-eslint/parser": "5",
     "@vitejs/plugin-vue": "3.2",
     "@vue/eslint-config-typescript": "11",
-    "eslint": "8.38",
+    "eslint": "8.39",
     "eslint-plugin-html": "7",
     "eslint-plugin-unicorn": "46",
     "eslint-plugin-vue": "9",
