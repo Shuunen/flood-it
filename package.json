@@ -3,7 +3,7 @@
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "description": "A flood it game",
   "devDependencies": {
-    "@angular-eslint/template-parser": "15",
+    "@angular-eslint/template-parser": "16",
     "@types/node": "18",
     "@typescript-eslint/eslint-plugin": "5",
     "@typescript-eslint/parser": "5",
