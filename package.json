@@ -11,7 +11,7 @@
     "@vue/eslint-config-typescript": "12",
     "eslint": "8.56",
     "eslint-plugin-html": "7",
-    "eslint-plugin-unicorn": "50",
+    "eslint-plugin-unicorn": "51",
     "eslint-plugin-vue": "9",
     "repo-check": "1.29",
     "shuutils": "7.7",
