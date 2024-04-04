@@ -171,6 +171,7 @@ function useSeed () {
 // eslint-disable-next-line max-statements
 function getSeedFromUrl () {
   const hashSeed = document.location.hash.slice(1)
+  if (hashSeed === '') { console.log('no seed in url'); return }
   const { width, height, cells } = seedFormat.exec(hashSeed)?.groups ?? {}
   if (width === undefined || height === undefined || cells === undefined) { console.error('seed format seems to be incorrect'); return }
   size.width = Number.parseInt(width, 10)
@@ -191,9 +192,8 @@ function postForm () { console.log('postForm') }
 function readStorage () {
   console.log('read storage')
   player.value = storage.get('player', player.value)
-  if (seed.value) return
-  seed.value = storage.get('seed', seed.value)
-  if (seed.value) setSeed(seed.value)
+  const storedSeed = storage.get('seed', seed.value || getRandomSeed())
+  if (seed.value !== storedSeed) setSeed(storedSeed)
 }
 
 console.clear()
