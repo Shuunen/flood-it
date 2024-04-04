@@ -1,5 +1,5 @@
+.eslintcache
 *.log
 *.tgz
 dist
 node_modules
-pnpm-lock.yaml

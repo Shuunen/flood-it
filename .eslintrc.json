@@ -4,6 +4,11 @@
     "es6": true,
     "node": true
   },
+  "ignorePatterns": [
+    "coverage",
+    "dist",
+    "node_modules"
+  ],
   "overrides": [
     {
       "files": [
@@ -14,59 +19,126 @@
     },
     {
       "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:unicorn/recommended",
-        "plugin:vue/vue3-recommended",
-        "@vue/typescript/recommended"
+        "plugin:unicorn/all",
+        "hardcore",
+        "hardcore/ts",
+        "hardcore/vue"
       ],
       "files": [
         "*.ts",
         "*.vue"
       ],
-      "parser": "vue-eslint-parser",
+      "parserOptions": {
+        "project": true
+      },
       "rules": {
-        "@typescript-eslint/brace-style": [
+        "@typescript-eslint/comma-dangle": [
           "error",
-          "1tbs",
+          "always-multiline"
+        ],
+        "@typescript-eslint/consistent-indexed-object-style": "off",
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "@typescript-eslint/consistent-type-imports": [
+          "error",
           {
-            "allowSingleLine": true
+            "fixStyle": "inline-type-imports",
+            "prefer": "type-imports"
           }
         ],
-        "@typescript-eslint/explicit-function-return-type": "error",
-        "@typescript-eslint/no-unused-vars": [
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/lines-around-comment": "off",
+        "@typescript-eslint/member-delimiter-style": [
           "error",
           {
-            "argsIgnorePattern": "^_",
-            "varsIgnorePattern": "^(_|global)"
+            "multiline": {
+              "delimiter": "none"
+            }
           }
+        ],
+        "@typescript-eslint/no-type-alias": "off",
+        "@typescript-eslint/prefer-destructuring": "off",
+        "@typescript-eslint/prefer-readonly-parameter-types": [
+          "error",
+          {
+            "allow": [
+              "Document",
+              "DomContent",
+              "Element",
+              "Event",
+              "HTMLElement",
+              "Node",
+              "Window"
+            ],
+            "ignoreInferredTypes": false
+          }
+        ],
+        "@typescript-eslint/semi": [
+          "error",
+          "never"
         ],
         "capitalized-comments": "off",
         "comma-dangle": [
           "error",
           "always-multiline"
         ],
+        "compat/compat": "off",
         "curly": [
           "error",
           "multi"
         ],
+        "eslint-comments/no-use": "off",
+        "etc/no-commented-out-code": "off",
+        "etc/no-deprecated": "off",
+        "etc/no-internal": "off",
+        "etc/no-misused-generics": "off",
+        "etc/prefer-interface": "off",
+        "ext/lines-between-object-properties": "off",
         "func-names": [
           "error",
           "always"
         ],
+        "id-length": [
+          "error",
+          {
+            "exceptions": [
+              "t"
+            ],
+            "min": 2
+          }
+        ],
+        "import/extensions": "off",
+        "import/newline-after-import": "off",
         "import/no-unassigned-import": "off",
+        "import/order": "off",
+        "import/prefer-default-export": "off",
         "indent": [
           "error",
           2
         ],
+        "line-comment-position": "off",
+        "lines-around-comment": "off",
         "lines-between-class-members": "off",
+        "logical-assignment-operators": "off",
+        "max-len": "off",
+        "max-lines": "off",
         "max-statements-per-line": "off",
         "no-console": "off",
+        "no-inline-comments": "off",
+        "no-restricted-syntax": [
+          "error",
+          {
+            "message": "Avoid using Class, just use good old unit-testable functions :)",
+            "selector": "ClassDeclaration"
+          }
+        ],
         "object-curly-spacing": [
           "error",
           "always"
         ],
         "padding-line-between-statements": "off",
+        "prefer-destructuring": "off",
+        "prettier/prettier": "off",
+        "putout/putout": "off",
         "quote-props": [
           "error",
           "consistent-as-needed"
@@ -75,18 +147,30 @@
           "error",
           "single"
         ],
+        "regexp/require-unicode-sets-regexp": "off",
+        "require-atomic-updates": [
+          "error",
+          {
+            "allowProperties": true
+          }
+        ],
         "semi": [
           "error",
           "never"
         ],
+        "simple-import-sort/imports": "off",
         "space-before-function-paren": [
           "error",
           "always"
         ],
+        "total-functions/no-partial-division": "off",
+        "total-functions/no-unsafe-readonly-mutable-assignment": "off",
         "unicorn/no-array-for-each": "off",
         "unicorn/no-process-exit": "off",
         "unicorn/prefer-module": "off",
         "unicorn/prefer-node-protocol": "off",
+        "unicorn/prefer-spread": "off",
+        "unicorn/prefer-string-replace-all": "off",
         "unicorn/prefer-switch": "off",
         "unicorn/prevent-abbreviations": [
           "error",
@@ -100,16 +184,15 @@
         ],
         "vue/first-attribute-linebreak": "off",
         "vue/html-closing-bracket-newline": "off",
+        "vue/html-indent": "off",
         "vue/html-self-closing": "off",
         "vue/max-attributes-per-line": "off",
         "vue/no-multiple-template-root": "off",
-        "vue/singleline-html-element-content-newline": "off"
+        "vue/singleline-html-element-content-newline": "off",
+        "vue/v-on-handler-style": "off",
+        "vuejs-accessibility/click-events-have-key-events": "off",
+        "vuejs-accessibility/no-static-element-interactions": "off"
       }
     }
-  ],
-  "plugins": [
-    "@typescript-eslint",
-    "vue",
-    "unicorn"
   ]
 }

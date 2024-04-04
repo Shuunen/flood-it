@@ -3,18 +3,13 @@
 [![GitHub license](https://img.shields.io/github/license/shuunen/flood-it.svg?color=informational)](https://github.com/Shuunen/flood-it/blob/master/LICENSE)
 
 [![Website Up](https://img.shields.io/website/https/flood-it.netlify.app.svg)](https://flood-it.netlify.app)
-[![LGTM Grade](https://img.shields.io/lgtm/grade/javascript/github/Shuunen/flood-it.svg)](https://lgtm.com/projects/g/Shuunen/flood-it)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/Shuunen/flood-it?style=flat)](https://codeclimate.com/github/Shuunen/flood-it)
 
 > Flood-it, a game for liquid snakes.
 
-## Type Support For `.vue` Imports in TS
+![logo](docs/banner.svg)
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
-
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
-
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+![demo](docs/design-1.1.0.jpg)
 
 ## Thanks
 
