@@ -41,7 +41,7 @@
   },
   "scripts": {
     "build": "vite build && echo build success",
-    "check": "pnpm build && repo-check && pnpm lint && pnpm test && echo check success",
+    "check": "pnpm install && echo install success && pnpm build && repo-check && pnpm lint && pnpm test && echo check success",
     "dev": "vite",
     "lint": "pnpm lint:tsc && pnpm lint:eslint && echo lint success",
     "lint:eslint": "eslint --cache --max-warnings 0 --ext .js,.ts,.html,.vue . && echo eslint success",
