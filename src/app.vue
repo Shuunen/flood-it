@@ -203,17 +203,20 @@ renderGame()
 </script>
 
 <template>
-  <div id="game" :class="gameEnded ? 'game-ended' : ''">
-    <h1>Flood-it</h1>
-    <div class="moves">{{ player }} : {{ moves }} moves</div>
-    <div class="grid">
-      <div v-for="yi in size.height" :key="yi" class="row">
-        <div v-for="xi in size.width" :id="`cell-${xi}${yi}`" :key="xi" class="cell" @click="onCellClick">{{ xi }} / {{ yi }}</div>
+  <div class="flex flex-col gap-6">
+    <h1 class="text-5xl font-bold tracking-tighter text-green-100 drop-shadow-md">Flood-it</h1>
+    <div>{{ moves }} moves</div>
+    <div class="mb-2 flex shrink-0 flex-col items-center drop-shadow-md">
+      <div v-for="yi in size.height" :key="yi" class="flex">
+        <div v-for="xi in size.width" :id="`cell-${xi}${yi}`" :key="xi"
+          class="size-14 cursor-pointer text-transparent transition-all duration-300 hover:opacity-80" :class="gameEnded ? 'animate-win' : ''"
+          @click="onCellClick">
+          {{ xi }}/ {{ yi }}
+        </div>
       </div>
     </div>
     <div v-show="gameEnded">
-      <br />
-      <h3>You win in {{ moves }} moves {{ sameScore ? "again " : "" }} !</h3>
+      <p class="mb-2 text-xl underline underline-offset-8">You win in {{ moves }} moves {{ sameScore ? "again " : "" }} !</p>
       <small v-show="scoreSubmitted">Score has been submitted.</small>
       <div v-show="askPlayer && !scoreSubmitted">
         <p>
@@ -226,141 +229,36 @@ renderGame()
             <input id="name" v-model="player" maxlength="10" minlength="3" placeholder="hero name" type="text" @focus="askPlayerRules = true" />
           </label>
           <input type="submit" value="Send !" @click="setStorage" />
-          <ul v-show="askPlayerRules" class="rules">
+          <ul v-show="askPlayerRules">
             <li v-show="!player || player.length === 0">Name cannot be empty.</li>
             <li v-show="player.length < 3 || player.length > 10">Name should be between 3 & 10 characters long.</li>
           </ul>
         </form>
       </div>
     </div>
-    <div class="footer">
-      <div class="menu">
-        <button class="btn" type="button" @click="restartGame">Restart</button>
-        <button class="btn" type="button" @click="useSeed">Use seed</button>
-        <button class="btn" type="button" @click="startGame">New game</button>
-      </div>
-      <p class="seed">Game seed : {{ seed }}</p>
+    <div class="flex items-center justify-center gap-6">
+      <button class="app-btn" type="button" @click="restartGame">Restart</button>
+      <button class="app-btn" type="button" @click="useSeed">Use seed</button>
+      <button class="app-btn" type="button" @click="startGame">New game</button>
     </div>
+    <p class="text-xs tracking-tighter opacity-50">Game seed : {{ seed }}</p>
+    <div></div>
   </div>
 </template>
 
 <style scoped>
-.menu {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+.app-btn {
+  @apply bg-transparent border border-solid border-current rounded-md text-white cursor-pointer text-lg px-4 py-2 transition-opacity hover:opacity-100 opacity-70;
 }
 
-#game {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-h1 {
-  font-size: 30px;
-  letter-spacing: -4px;
-  margin: 2vw 0;
-}
-
-h3 {
-  font-size: 20px;
-}
-
-.btn {
-  background: none;
-  border: 1px solid;
-  border-radius: 3px;
-  color: inherit;
-  cursor: pointer;
-  font-size: 20px;
-  margin-bottom: 6px;
-  opacity: .6;
-  padding: 6px 12px;
-  text-decoration: none;
-  transition: .3s opacity;
-}
-
-.btn:hover {
-  opacity: 1;
-}
-
-.grid {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  margin-top: 4vw;
-}
-
-.row {
-  display: flex;
-}
-
-.cell {
-  color: gray;
-  cursor: pointer;
-  font-size: 0;
-  height: 14vw;
-  line-height: 50px;
-  max-height: 50px;
-  max-width: 50px;
-  opacity: 1;
-  transition: .3s background-color, .3s opacity;
-  width: 14vw;
-}
-
-.cell:hover {
-  opacity: .8;
-}
-
-.game-ended .cell {
+.animate-win {
   animation: win 1s linear infinite;
   animation-direction: alternate;
 }
 
 @keyframes win {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(.9);
-  }
-
-  100% {
-    transform: scale(1) rotate(90deg);
-  }
-}
-
-.footer {
-  color: wheat;
-  font-size: 10px;
-  margin-top: auto;
-  padding: 15px;
-}
-
-#askPlayerForm .rules {
-  color: darkseagreen;
-  padding: 0;
-  width: 100%;
-}
-
-#askPlayerForm .rules li {
-  list-style: none;
-}
-
-input {
-  border: none;
-  border-radius: 3px;
-  padding: 8px 12px;
-}
-
-input[type="submit"] {
-  cursor: pointer;
-}
-
-.seed {
-  word-break: break-word;
+  0% { transform: scale(1); }
+  50% { transform: scale(.9); }
+  100% { transform: scale(1) rotate(90deg); }
 }
 </style>

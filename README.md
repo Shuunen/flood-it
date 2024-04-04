@@ -19,5 +19,6 @@
 - [Repo-checker](https://github.com/Shuunen/repo-checker) : eslint cover /src code and this tool the rest ^^
 - [Shields.io](https://shields.io) : for the nice badges on top of this readme
 - [Shuutils](https://github.com/Shuunen/shuutils) : collection of pure JS utils
+- [TailwindCss](https://tailwindcss.com) : awesome lib to produce maintainable style
 - [Vite](https://github.com/vitejs/vite) : super fast frontend tooling
 - [Vue](https://vuejs.org) : when I need a front framework, this is the one I choose <3

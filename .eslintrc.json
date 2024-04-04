@@ -11,6 +11,9 @@
   ],
   "overrides": [
     {
+      "extends": [
+        "plugin:tailwindcss/recommended"
+      ],
       "files": [
         "*.html",
         "*.vue"
@@ -19,6 +22,7 @@
     },
     {
       "extends": [
+        "plugin:tailwindcss/recommended",
         "plugin:unicorn/all",
         "hardcore",
         "hardcore/ts",
@@ -120,7 +124,6 @@
         "lines-between-class-members": "off",
         "logical-assignment-operators": "off",
         "max-len": "off",
-        "max-lines": "off",
         "max-statements-per-line": "off",
         "no-console": "off",
         "no-inline-comments": "off",
@@ -189,10 +192,37 @@
         "vue/max-attributes-per-line": "off",
         "vue/no-multiple-template-root": "off",
         "vue/singleline-html-element-content-newline": "off",
+        "vue/static-class-names-order": "off",
         "vue/v-on-handler-style": "off",
         "vuejs-accessibility/click-events-have-key-events": "off",
         "vuejs-accessibility/no-static-element-interactions": "off"
       }
+    },
+    {
+      "extends": [
+        "hardcore/ts-for-js"
+      ],
+      "files": [
+        "*.js"
+      ],
+      "parserOptions": {
+        "project": "tsconfig.js.json"
+      },
+      "rules": {
+        "etc/no-commented-out-code": "off", // we want to ^^
+        "etc/no-deprecated": "off", // slow
+        "etc/no-internal": "off" // slow
+      }
     }
-  ]
+  ],
+  "settings": {
+    "tailwindcss": {
+      "cssFiles": [
+        "src/*.css"
+      ],
+      "whitelist": [
+        "app-[a-z-]+"
+      ]
+    }
+  }
 }
