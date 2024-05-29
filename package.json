@@ -8,7 +8,7 @@
   },
   "description": "A flood it game",
   "devDependencies": {
-    "@angular-eslint/template-parser": "17",
+    "@angular-eslint/template-parser": "18",
     "@types/node": "20",
     "@typescript-eslint/eslint-plugin": "7",
     "@typescript-eslint/parser": "7",
