@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   shuutils:
-    specifier: '7.7'
-    version: 7.7.0
+    specifier: '8.0'
+    version: 8.0.0
   vue:
     specifier: '3.4'
     version: 3.4.21(typescript@5.4.3)
@@ -7944,6 +7944,14 @@ packages:
     hasBin: true
     dependencies:
       tiny-glob: 0.2.9
+    dev: true
+
+  /shuutils@8.0.0:
+    resolution: {integrity: sha512-dXfLqTOxYh1eugoidZ/5TyuDWqd7pfPaUFV1WzPvDs53UPya9BYifN8lc2YaDRzOXAcGMeMjpivOy4czUNduJw==}
+    hasBin: true
+    dependencies:
+      tiny-glob: 0.2.9
+    dev: false
 
   /side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}

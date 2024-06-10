@@ -3,7 +3,7 @@
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "dependencies": {
-    "shuutils": "7.7",
+    "shuutils": "8.0",
     "vue": "3.4"
   },
   "description": "A flood it game",
