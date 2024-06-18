@@ -16,7 +16,7 @@
     "@vue/eslint-config-typescript": "13",
     "autoprefixer": "10",
     "eslint": "8.57",
-    "eslint-config-hardcore": "45",
+    "eslint-config-hardcore": "46",
     "eslint-plugin-html": "8",
     "eslint-plugin-tailwindcss": "3",
     "eslint-plugin-unicorn": "54",
