@@ -15,7 +15,7 @@
     "@vitejs/plugin-vue": "5",
     "@vue/eslint-config-typescript": "13",
     "autoprefixer": "10",
-    "eslint": "8.57",
+    "eslint": "9.5",
     "eslint-config-hardcore": "45",
     "eslint-plugin-html": "8",
     "eslint-plugin-tailwindcss": "3",
