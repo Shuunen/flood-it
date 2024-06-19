@@ -3,7 +3,7 @@ import { getRandomNumber, storage } from 'shuutils'
 import { ref } from 'vue'
 
 storage.prefix = 'flood-it_'
-// eslint-disable-next-line regexp/no-super-linear-move
+
 const seedFormat = /(?<width>\d+)x(?<height>\d+)_(?<cells>\d+)/u
 const baseColor = ref('')
 const floodColor = ref('')
@@ -15,21 +15,20 @@ const askPlayerRules = ref(false)
 const gameEnded = ref(false)
 const sameScore = ref(false)
 const scoreSubmitted = ref(false)
-const size = { width: 7, height: 7 }
+const size = { height: 7, width: 7 }
 const colors = ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
 const delay = 200
 
-function getCell (positionX: number, positionY: number, willWarn = false) {
+function getCell (positionX, positionY, willWarn = false) {
   const cell = document.querySelector<HTMLElement>(`#cell-${positionX}${positionY}`)
   if (!cell) {
     if (willWarn) console.error(`no cell found on pos x/y : ${positionX}/${positionY}`)
     return
   }
-  // eslint-disable-next-line @typescript-eslint/consistent-return
   return cell
 }
 
-function colorCell (positionX: number, positionY: number, color: string) {
+function colorCell (positionX, positionY, color) {
   const cell = getCell(positionX, positionY)
   if (!cell) { console.error(`no cell found on pos x/y : ${positionX}/${positionY}`); return }
   cell.style.backgroundColor = color
@@ -42,7 +41,7 @@ function setGrid () {
   let [, content] = seed.value.split('_')
   if (content === undefined) { console.error('failed to get seed content'); return }
   for (let yi = 1; yi <= size.height; yi += 1)
-    for (let xi = 1; xi <= size.width; xi += 1) { // eslint-disable-line sonar/no-redundant-assignments
+    for (let xi = 1; xi <= size.width; xi += 1) {
       const index = Number.parseInt(content.at(0) ?? '', 10)
       // content = '200013120203221020122022130221111223000303132131'
       content = content.slice(1)
@@ -50,7 +49,7 @@ function setGrid () {
     }
 }
 
-function getCellColor (positionX: number, positionY: number): string {
+function getCellColor (positionX, positionY) {
   const cell = getCell(positionX, positionY)
   if (!cell) {
     console.error(`no cell found on pos x/y : ${positionX}/${positionY}`)
@@ -67,13 +66,12 @@ function onGameEnded () {
 function checkEnd () {
   // avoid multiple sync calls when game is ended
   if (gameEnded.value) return
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   setTimeout(() => {
     // avoid multiple async calls when game is ended
     if (gameEnded.value) return
     let isEnd = true
     for (let yi = 1; yi <= size.height; yi += 1) {
-      for (let xi = 1; xi <= size.width; xi += 1) { // eslint-disable-line sonar/no-redundant-assignments
+      for (let xi = 1; xi <= size.width; xi += 1) {
         // avoid parsing further cols when game is ended
         if (!isEnd) break
         const color = getCellColor(xi, yi)
@@ -86,7 +84,7 @@ function checkEnd () {
   }, delay)
 }
 
-function floodCell (positionX: number, positionY: number) {
+function floodCell (positionX, positionY) {
   const cell = getCell(positionX, positionY)
   if (!cell) return
   if (cell.style.backgroundColor === baseColor.value) {
@@ -108,10 +106,8 @@ function flood () {
   floodCell(1, 1)
 }
 
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-function onCellClick (event: MouseEvent) {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  floodColor.value = (event.target as HTMLElement).style.backgroundColor
+function onCellClick (event) {
+  floodColor.value = event.target.style.backgroundColor
   flood()
 }
 
@@ -121,7 +117,7 @@ function setStorage () {
   storage.set('seed', seed.value)
 }
 
-function getRandomSeed (): string {
+function getRandomSeed () {
   console.log('get random seed')
   let random = `${size.width}x${size.height}_`
   const nbColors = colors.length
@@ -129,9 +125,9 @@ function getRandomSeed (): string {
   return random
 }
 
-function setSeed (updatedSeed = getRandomSeed()): void {
+function setSeed (updatedSeed = getRandomSeed()) {
   console.log(`set seed to ${updatedSeed}`)
-  const { width, height, cells } = seedFormat.exec(updatedSeed)?.groups ?? {}
+  const { cells, height, width } = seedFormat.exec(updatedSeed)?.groups ?? {}
   if (width === undefined || height === undefined || cells === undefined) { console.error('seed format seems to be incorrect'); return }
   size.width = Number.parseInt(width, 10)
   size.height = Number.parseInt(height, 10)
@@ -161,18 +157,18 @@ function startGame () {
 }
 
 function useSeed () {
-  // eslint-disable-next-line no-alert
+
   const input = window.prompt('Please insert the seed you want to play')
   if (input === null || input === '') { console.error('seed is empty, cant use it'); return }
   setSeed(input)
   restartGame()
 }
 
-// eslint-disable-next-line max-statements
+
 function getSeedFromUrl () {
   const hashSeed = document.location.hash.slice(1)
   if (hashSeed === '') { console.log('no seed in url'); return }
-  const { width, height, cells } = seedFormat.exec(hashSeed)?.groups ?? {}
+  const { cells, height, width } = seedFormat.exec(hashSeed)?.groups ?? {}
   if (width === undefined || height === undefined || cells === undefined) { console.error('seed format seems to be incorrect'); return }
   size.width = Number.parseInt(width, 10)
   size.height = Number.parseInt(height, 10)
@@ -204,45 +200,60 @@ renderGame()
 
 <template>
   <div class="flex flex-col gap-6">
-    <h1 class="text-5xl font-bold tracking-tighter text-green-100 drop-shadow-md">Flood-it</h1>
+    <h1 class="text-5xl font-bold tracking-tighter text-green-100 drop-shadow-md">
+      Flood-it
+    </h1>
     <div>{{ moves }} moves</div>
     <div class="mb-2 flex shrink-0 flex-col items-center drop-shadow-md">
-      <div v-for="yi in size.height" :key="yi" class="flex">
-        <div v-for="xi in size.width" :id="`cell-${xi}${yi}`" :key="xi"
-          class="size-14 cursor-pointer text-transparent transition-all duration-300 hover:opacity-80" :class="gameEnded ? 'animate-win' : ''"
-          @click="onCellClick">
+      <div :key="yi" class="flex" v-for="yi in size.height">
+        <div :class="gameEnded ? 'animate-win' : ''" :id="`cell-${xi}${yi}`" :key="xi" @click="onCellClick"
+          class="size-14 cursor-pointer text-transparent transition-all duration-300 hover:opacity-80" v-for="xi in size.width">
           {{ xi }}/ {{ yi }}
         </div>
       </div>
     </div>
     <div v-show="gameEnded">
-      <p class="mb-2 text-xl underline underline-offset-8">You win in {{ moves }} moves {{ sameScore ? "again " : "" }} !</p>
+      <p class="mb-2 text-xl underline underline-offset-8">
+        You win in {{ moves }} moves {{ sameScore ? "again " : "" }} !
+      </p>
       <small v-show="scoreSubmitted">Score has been submitted.</small>
       <div v-show="askPlayer && !scoreSubmitted">
         <p>
           You want to be in the high-scores ?
-          <br />What's your name ?
+          <br>What's your name ?
         </p>
-        <form id="askPlayerForm" @submit.prevent="postForm">
+        <form @submit.prevent="postForm" id="askPlayerForm">
           <label for="name">
             Hero name :
-            <input id="name" v-model="player" maxlength="10" minlength="3" placeholder="hero name" type="text" @focus="askPlayerRules = true" />
+            <input @focus="askPlayerRules = true" id="name" maxlength="10" minlength="3" placeholder="hero name" type="text" v-model="player">
           </label>
-          <input type="submit" value="Send !" @click="setStorage" />
+          <input @click="setStorage" type="submit" value="Send !">
           <ul v-show="askPlayerRules">
-            <li v-show="!player || player.length === 0">Name cannot be empty.</li>
-            <li v-show="player.length < 3 || player.length > 10">Name should be between 3 & 10 characters long.</li>
+            <li v-show="!player || player.length === 0">
+              Name cannot be empty.
+            </li>
+            <li v-show="player.length < 3 || player.length > 10">
+              Name should be between 3 & 10 characters long.
+            </li>
           </ul>
         </form>
       </div>
     </div>
     <div class="flex items-center justify-center gap-6">
-      <button class="app-btn" type="button" @click="restartGame">Restart</button>
-      <button class="app-btn" type="button" @click="useSeed">Use seed</button>
-      <button class="app-btn" type="button" @click="startGame">New game</button>
+      <button @click="restartGame" class="app-btn" type="button">
+        Restart
+      </button>
+      <button @click="useSeed" class="app-btn" type="button">
+        Use seed
+      </button>
+      <button @click="startGame" class="app-btn" type="button">
+        New game
+      </button>
     </div>
-    <p class="text-xs tracking-tighter opacity-50">Game seed : {{ seed }}</p>
-    <div></div>
+    <p class="text-xs tracking-tighter opacity-50">
+      Game seed : {{ seed }}
+    </p>
+    <div />
   </div>
 </template>
 
