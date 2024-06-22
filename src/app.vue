@@ -1,3 +1,5 @@
+<!-- eslint-disable no-console -->
+<!-- eslint-disable no-magic-numbers -->
 <script setup lang="ts">
 import { getRandomNumber, storage } from 'shuutils'
 import { ref } from 'vue'
@@ -10,8 +12,8 @@ const floodColor = ref('')
 const moves = ref(0)
 const player = ref('Unknown hero')
 const seed = ref('')
-const askPlayer = ref(false)
-const askPlayerRules = ref(false)
+const askPlayer = ref(false) // eslint-disable-line no-useless-assignment
+const askPlayerRules = ref(false) // eslint-disable-line no-useless-assignment
 const gameEnded = ref(false)
 const sameScore = ref(false)
 const scoreSubmitted = ref(false)
@@ -19,12 +21,9 @@ const size = { height: 7, width: 7 }
 const colors = ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
 const delay = 200
 
-function getCell (positionX, positionY, willWarn = false) {
+function getCell (positionX, positionY, willThrow = false) {
   const cell = document.querySelector<HTMLElement>(`#cell-${positionX}${positionY}`)
-  if (!cell) {
-    if (willWarn) console.error(`no cell found on pos x/y : ${positionX}/${positionY}`)
-    return
-  }
+  if (!cell && willThrow) throw new Error(`no cell found on pos x/y : ${positionX}/${positionY}`)
   return cell
 }
 
@@ -157,7 +156,7 @@ function startGame () {
 }
 
 function useSeed () {
-
+  // eslint-disable-next-line no-alert
   const input = window.prompt('Please insert the seed you want to play')
   if (input === null || input === '') { console.error('seed is empty, cant use it'); return }
   setSeed(input)
@@ -165,6 +164,7 @@ function useSeed () {
 }
 
 
+// eslint-disable-next-line max-statements
 function getSeedFromUrl () {
   const hashSeed = document.location.hash.slice(1)
   if (hashSeed === '') { console.log('no seed in url'); return }
@@ -273,3 +273,4 @@ renderGame()
   100% { transform: scale(1) rotate(90deg); }
 }
 </style>
+: any: any: number: number: string: number: number: number: number: { target: { style: { backgroundColor: string } } }
