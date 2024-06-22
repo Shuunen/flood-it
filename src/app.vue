@@ -273,4 +273,3 @@ renderGame()
   100% { transform: scale(1) rotate(90deg); }
 }
 </style>
-: any: any: number: number: string: number: number: number: number: { target: { style: { backgroundColor: string } } }
