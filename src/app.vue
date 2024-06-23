@@ -1,3 +1,4 @@
+<!-- eslint-disable jsdoc/require-jsdoc -->
 <!-- eslint-disable no-console -->
 <!-- eslint-disable no-magic-numbers -->
 <script setup lang="ts">
