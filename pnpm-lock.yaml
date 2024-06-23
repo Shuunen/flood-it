@@ -23,8 +23,8 @@ devDependencies:
     specifier: '9.5'
     version: 9.5.0
   eslint-plugin-shuunen:
-    specifier: 0.0.2
-    version: 0.0.2(eslint@9.5.0)(typescript@5.5.2)
+    specifier: 0.0.3
+    version: 0.0.3(eslint@9.5.0)(tailwindcss@3.4.4)(typescript@5.5.2)
   postcss:
     specifier: '8.4'
     version: 8.4.38
@@ -1139,8 +1139,8 @@ packages:
       - typescript
     dev: true
 
-  /eslint-plugin-shuunen@0.0.2(eslint@9.5.0)(typescript@5.5.2):
-    resolution: {integrity: sha512-Ey4uaQnN+CYXf9T1Za4aeCeEExl92khelI1Yb4YaBf7fHqLCIVWFshGXWgiXkg2nj5it0KnKt9/4GhqT1F8ztg==}
+  /eslint-plugin-shuunen@0.0.3(eslint@9.5.0)(tailwindcss@3.4.4)(typescript@5.5.2):
+    resolution: {integrity: sha512-5ZNMYPxtgZ7pkSnBzgkQLzRtq1fBO7wGwMJfMWUQd0fcM4cx5VhXDLMDlEoacxaLfeZKHtMEE7PpHNpzBA1UhA==}
     engines: {node: '>=20'}
     peerDependencies:
       eslint: '>=8.57.0'
@@ -1148,6 +1148,7 @@ packages:
       '@eslint/eslintrc': 3.1.0
       eslint: 9.5.0
       eslint-plugin-perfectionist: 2.11.0(eslint@9.5.0)(typescript@5.5.2)
+      eslint-plugin-tailwindcss: 3.17.4(tailwindcss@3.4.4)
       eslint-plugin-unicorn: 54.0.0(eslint@9.5.0)
       eslint-plugin-vue: 9.26.0(eslint@9.5.0)
       globals: 15.6.0
@@ -1156,8 +1157,20 @@ packages:
       - supports-color
       - svelte
       - svelte-eslint-parser
+      - tailwindcss
       - typescript
       - vue-eslint-parser
+    dev: true
+
+  /eslint-plugin-tailwindcss@3.17.4(tailwindcss@3.4.4):
+    resolution: {integrity: sha512-gJAEHmCq2XFfUP/+vwEfEJ9igrPeZFg+skeMtsxquSQdxba9XRk5bn0Bp9jxG1VV9/wwPKi1g3ZjItu6MIjhNg==}
+    engines: {node: '>=18.12.0'}
+    peerDependencies:
+      tailwindcss: ^3.4.0
+    dependencies:
+      fast-glob: 3.3.2
+      postcss: 8.4.38
+      tailwindcss: 3.4.4
     dev: true
 
   /eslint-plugin-unicorn@54.0.0(eslint@9.5.0):
