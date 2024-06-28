@@ -10,7 +10,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "5.0",
     "autoprefixer": "10.4",
-    "eslint": "9.5",
+    "eslint": "9.6",
     "eslint-plugin-shuunen": "0.0.5",
     "postcss": "8.4",
     "repo-check": "1.36",
