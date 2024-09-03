@@ -4,7 +4,7 @@
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "dependencies": {
     "shuutils": "8.1",
-    "vue": "3.4"
+    "vue": "3.5"
   },
   "description": "A flood it game",
   "devDependencies": {
