@@ -2,7 +2,7 @@
 <!-- eslint-disable no-console -->
 <!-- eslint-disable no-magic-numbers -->
 <script setup lang="ts">
-import { getRandomNumber, storage } from 'shuutils'
+import { randomNumber, storage } from 'shuutils'
 import { ref } from 'vue'
 
 storage.prefix = 'flood-it_'
@@ -42,7 +42,7 @@ function setGrid () {
   if (content === undefined) { console.error('failed to get seed content'); return }
   for (let yi = 1; yi <= size.height; yi += 1)
     for (let xi = 1; xi <= size.width; xi += 1) {
-      const index = Number.parseInt(content.at(0) ?? '', 10)
+      const index = Number.parseInt(content[0] ?? '', 10)
       // content = '200013120203221020122022130221111223000303132131'
       content = content.slice(1)
       colorCell(xi, yi, colors[index] ?? 'red')
@@ -121,7 +121,7 @@ function getRandomSeed () {
   console.log('get random seed')
   let random = `${size.width}x${size.height}_`
   const nbColors = colors.length
-  for (let index = 0; index < size.width * size.height; index += 1) random += getRandomNumber(0, nbColors - 1)
+  for (let index = 0; index < size.width * size.height; index += 1) random += randomNumber(0, nbColors - 1)
   return random
 }
 
@@ -158,7 +158,7 @@ function startGame () {
 
 function useSeed () {
   // eslint-disable-next-line no-alert
-  const input = window.prompt('Please insert the seed you want to play')
+  const input = globalThis.prompt('Please insert the seed you want to play')
   if (input === null || input === '') { console.error('seed is empty, cant use it'); return }
   setSeed(input)
   restartGame()
@@ -177,7 +177,7 @@ function getSeedFromUrl () {
   console.log(`detected seed in url : ${fixedSeed}`)
   let seedSize = cells.length
   while (seedSize < (size.width * size.height)) {
-    fixedSeed += getRandomNumber(0, colors.length - 1)
+    fixedSeed += randomNumber(0, colors.length - 1)
     seedSize += 1
   }
   if (fixedSeed !== hashSeed) console.log('seed in url has been fixed')

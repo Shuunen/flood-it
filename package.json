@@ -3,7 +3,7 @@
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "dependencies": {
-    "shuutils": "9.0",
+    "shuutils": "10.1",
     "vue": "3.5"
   },
   "description": "A flood it game",
@@ -11,7 +11,7 @@
     "@vitejs/plugin-vue": "5.2",
     "autoprefixer": "10.4",
     "eslint": "*",
-    "eslint-plugin-shuunen": "0.3",
+    "eslint-plugin-shuunen": "0.4",
     "postcss": "8.4",
     "repo-check": "1.40",
     "tailwindcss": "3.4",
