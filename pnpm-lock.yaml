@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       shuutils:
-        specifier: '10.5'
-        version: 10.5.0
+        specifier: '10.6'
+        version: 10.6.0
       vue:
         specifier: '3.5'
         version: 3.5.13(typescript@5.6.2)
@@ -1325,6 +1325,10 @@ packages:
 
   shuutils@10.5.0:
     resolution: {integrity: sha512-XIBlpWI8zIRYV1f1hdIApAPtsThzqBkIoLfBpmbQY+RVTwDn3mtfJ/ir3ifhdsnoQjcDKkcdiJGdnoLje/KU3w==}
+    hasBin: true
+
+  shuutils@10.6.0:
+    resolution: {integrity: sha512-y3dveSrmnFKIxxIwKN6sSaX6nfCMK8WF20MJWzqqJ1DIFv7MBK9SXoJT4mU7F+w+yz3404vgnDD8wohWC7w1IA==}
     hasBin: true
 
   signal-exit@4.1.0:
@@ -2806,6 +2810,10 @@ snapshots:
   shebang-regex@3.0.0: {}
 
   shuutils@10.5.0:
+    dependencies:
+      tiny-glob: 0.2.9
+
+  shuutils@10.6.0:
     dependencies:
       tiny-glob: 0.2.9
 
