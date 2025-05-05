@@ -260,6 +260,8 @@ renderGame()
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .app-btn {
   @apply bg-transparent border border-solid border-current rounded-md text-white cursor-pointer text-lg px-4 py-2 transition-opacity hover:opacity-100 opacity-70;
 }

@@ -1,8 +1,11 @@
-import shuunen from 'eslint-plugin-shuunen'
+import { base } from 'eslint-plugin-shuunen/configs/base'
+import { browser } from 'eslint-plugin-shuunen/configs/browser'
+import { node } from 'eslint-plugin-shuunen/configs/node'
+import { vue } from 'eslint-plugin-shuunen/configs/vue'
 
 export default [
-  ...shuunen.configs.base,
-  ...shuunen.configs.browser,
-  ...shuunen.configs.node,
-  ...shuunen.configs.vue,
+  ...base,
+  ...browser,
+  ...node,
+  ...vue,
 ]
