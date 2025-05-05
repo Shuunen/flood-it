@@ -22,19 +22,20 @@ const size = { height: 7, width: 7 }
 const colors = ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
 const delay = 200
 
-function getCell (positionX, positionY, willThrow = false) {
+function getCell(positionX, positionY, willThrow = false) {
   const cell = document.querySelector<HTMLElement>(`#cell-${positionX}${positionY}`)
+  // eslint-disable-next-line no-restricted-syntax
   if (!cell && willThrow) throw new Error(`no cell found on pos x/y : ${positionX}/${positionY}`)
   return cell
 }
 
-function colorCell (positionX, positionY, color) {
+function colorCell(positionX, positionY, color) {
   const cell = getCell(positionX, positionY)
   if (!cell) { console.error(`no cell found on pos x/y : ${positionX}/${positionY}`); return }
   cell.style.backgroundColor = color
 }
 
-function setGrid () {
+function setGrid() {
   // ex : '7x7_3200013120203221020122022130221111223000303132131'
   // size = '7x7'
   // content = '3200013120203221020122022130221111223000303132131'
@@ -49,7 +50,7 @@ function setGrid () {
     }
 }
 
-function getCellColor (positionX, positionY) {
+function getCellColor(positionX, positionY) {
   const cell = getCell(positionX, positionY)
   if (!cell) {
     console.error(`no cell found on pos x/y : ${positionX}/${positionY}`)
@@ -58,12 +59,12 @@ function getCellColor (positionX, positionY) {
   return cell.style.backgroundColor
 }
 
-function onGameEnded () {
+function onGameEnded() {
   console.log('game ended')
   gameEnded.value = true
 }
 
-function checkEnd () {
+function checkEnd() {
   // avoid multiple sync calls when game is ended
   if (gameEnded.value) return
   setTimeout(() => {
@@ -84,7 +85,7 @@ function checkEnd () {
   }, delay)
 }
 
-function floodCell (positionX, positionY) {
+function floodCell(positionX, positionY) {
   const cell = getCell(positionX, positionY)
   if (!cell) return
   if (cell.style.backgroundColor === baseColor.value) {
@@ -97,7 +98,7 @@ function floodCell (positionX, positionY) {
   }
 }
 
-function flood () {
+function flood() {
   baseColor.value = getCellColor(1, 1)
   // if asked color is the same as base color
   if (baseColor.value === floodColor.value) return
@@ -106,18 +107,18 @@ function flood () {
   floodCell(1, 1)
 }
 
-function onCellClick (event) {
+function onCellClick(event) {
   floodColor.value = event.target.style.backgroundColor
   flood()
 }
 
-function setStorage () {
+function setStorage() {
   console.log('set storage')
   storage.set('player', player.value)
   storage.set('seed', seed.value)
 }
 
-function getRandomSeed () {
+function getRandomSeed() {
   console.log('get random seed')
   let random = `${size.width}x${size.height}_`
   const nbColors = colors.length
@@ -125,7 +126,7 @@ function getRandomSeed () {
   return random
 }
 
-function setSeed (updatedSeed = getRandomSeed()) {
+function setSeed(updatedSeed = getRandomSeed()) {
   console.log(`set seed to ${updatedSeed}`)
   const { cells, height, width } = seedFormat.exec(updatedSeed)?.groups ?? {}
   if (width === undefined || height === undefined || cells === undefined) { console.error('seed format seems to be incorrect'); return }
@@ -136,7 +137,7 @@ function setSeed (updatedSeed = getRandomSeed()) {
   setStorage()
 }
 
-function renderGame () {
+function renderGame() {
   console.log('render game')
   gameEnded.value = false
   sameScore.value = false
@@ -146,17 +147,17 @@ function renderGame () {
   setTimeout(() => { setGrid() }, delay)
 }
 
-function restartGame () {
+function restartGame() {
   renderGame()
 }
 
-function startGame () {
+function startGame() {
   console.log('start game')
   setSeed()
   restartGame()
 }
 
-function useSeed () {
+function useSeed() {
   // eslint-disable-next-line no-alert
   const input = globalThis.prompt('Please insert the seed you want to play')
   if (input === null || input === '') { console.error('seed is empty, cant use it'); return }
@@ -166,7 +167,7 @@ function useSeed () {
 
 
 // eslint-disable-next-line max-statements
-function getSeedFromUrl () {
+function getSeedFromUrl() {
   const hashSeed = document.location.hash.slice(1)
   if (hashSeed === '') { console.log('no seed in url'); return }
   const { cells, height, width } = seedFormat.exec(hashSeed)?.groups ?? {}
@@ -184,9 +185,9 @@ function getSeedFromUrl () {
   setSeed(fixedSeed)
 }
 
-function postForm () { console.log('postForm') }
+function postForm() { console.log('postForm') }
 
-function readStorage () {
+function readStorage() {
   console.log('read storage')
   player.value = storage.get('player', player.value)
   const storedSeed = storage.get('seed', seed.value || getRandomSeed())
