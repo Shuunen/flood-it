@@ -1,5 +1,9 @@
 import { render } from 'preact'
-import './index.css'
 import { App } from './app.tsx'
+// eslint-disable-next-line no-unassigned-import
+import './index.css'
 
-render(<App />, document.getElementById('app')!)
+const element = document.querySelector('#app')
+if (!element) throw new Error('No #app element found in the document')
+
+render(<App />, element)

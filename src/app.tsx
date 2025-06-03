@@ -1,3 +1,5 @@
+// eslint-disable max-nested-callbacks
+// eslint-disable max-lines-per-function
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { randomNumber } from 'shuutils'
 
@@ -6,25 +8,21 @@ const initialSize = { height: 7, width: 7 }
 
 function createSeed (width: number, height: number) {
   let seed = ''
-  for (let i = 0; i < width * height; i++) {
-    seed += randomNumber(0, colors.length - 1)
-  }
+  for (let i = 0; i < width * height; i += 1) seed += randomNumber(0, colors.length - 1)
   return `${width}x${height}_${seed}`
 }
 
 function parseSeed (seed: string) {
   const match = /(?<width>\d+)x(?<height>\d+)_(?<cells>\d+)/u.exec(seed)
-  if (!match?.groups) return { width: 7, height: 7, cells: '', fixedSeed: '' }
-  let width = parseInt(match.groups.width, 10)
-  let height = parseInt(match.groups.height, 10)
+  if (!match?.groups) return { cells: '', fixedSeed: '', height: 7, width: 7 }
+  let width = Number.parseInt(match.groups.width, 10)
+  let height = Number.parseInt(match.groups.height, 10)
   let cells = match.groups.cells
   const gridSize = width * height
   let fixed = false
   // Fix too short
   if (cells.length < gridSize) {
-    for (let i = cells.length; i < gridSize; i++) {
-      cells += randomNumber(0, colors.length - 1)
-    }
+    for (let i = cells.length; i < gridSize; i += 1) cells += randomNumber(0, colors.length - 1)
     fixed = true
   }
   // Fix too long
@@ -33,13 +31,13 @@ function parseSeed (seed: string) {
     fixed = true
   }
   const fixedSeed = `${width}x${height}_${cells}`
-  return { width, height, cells, fixedSeed: fixed ? fixedSeed : seed }
+  return { cells, fixedSeed: fixed ? fixedSeed : seed, height, width }
 }
 
 export function App () {
   const [seed, setSeed] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash.slice(1)
+    if (typeof globalThis !== 'undefined') {
+      const hash = globalThis.location.hash.slice(1)
       if (hash) return hash
     }
     return createSeed(initialSize.width, initialSize.height)
@@ -53,11 +51,9 @@ export function App () {
 
   // Persist fixed seed in URL when it changes or is auto-fixed
   useEffect(() => {
-    if (typeof window !== 'undefined' && seed) {
+    if (typeof globalThis !== 'undefined' && seed) {
       const { fixedSeed } = parseSeed(seed)
-      if (window.location.hash.slice(1) !== fixedSeed) {
-        window.location.hash = fixedSeed
-      }
+      if (globalThis.location.hash.slice(1) !== fixedSeed) globalThis.location.hash = fixedSeed
     }
   }, [seed])
 
@@ -66,7 +62,8 @@ export function App () {
     const { width, height, cells, fixedSeed } = parseSeed(seed)
     let idx = 0
     const newGrid = Array.from({ length: height }, () =>
-      Array.from({ length: width }, () => colors[parseInt(cells[idx++] ?? '0', 10)] || colors[0])
+      // eslint-disable-next-line no-return-assign
+      Array.from({ length: width }, () => colors[Number.parseInt(cells[idx += 1] ?? '0', 10)] || colors[0])
     )
     setGrid(newGrid)
     setFloodColor(newGrid[0]?.[0] || '')
@@ -76,6 +73,7 @@ export function App () {
   }, [seed, restartKey])
 
   // Flood fill algorithm
+  // eslint-disable-next-line max-params, consistent-function-scoping
   function flood (x: number, y: number, target: string, replacement: string, g: string[][]) {
     if (
       x < 0 || y < 0 || y >= g.length || x >= g[0].length ||
@@ -104,7 +102,7 @@ export function App () {
   }
 
   function newGame () {
-    setSeed(createSeed(grid[0]?.length || 7, grid.length || 7))
+    setSeed(createSeed(grid[0]?.length || initialSize.width, grid.length > 0 ? grid.length : initialSize.height))
   }
 
   function GameButtons () {

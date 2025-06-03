@@ -11,6 +11,7 @@
   "devDependencies": {
     "@preact/preset-vite": "2.10",
     "knip": "5.59",
+    "oxlint": "0.17",
     "repo-check": "1.44",
     "tailwindcss": "4.1",
     "typescript": "5.8",
@@ -36,8 +37,9 @@
     "build:mark": "unique-mark dist/index.{html} && echo build:mark success",
     "check": "bun install && echo install success && bun run build && repo-check && bun run lint && bun run test && echo check success",
     "dev": "vite",
-    "lint": "bun lint:tsc && bun lint:knip && echo lint success",
+    "lint": "bun lint:tsc && bun lint:knip && bun lint:oxlint && echo lint success",
     "lint:knip": "knip && echo lint:knip success",
+    "lint:oxlint": "oxlint src --deny-warnings --fix --fix-suggestions --fix-dangerously && echo lint:oxlint success",
     "lint:tsc": "tsc --noEmit && echo lint:tsc success",
     "postversion": "git push && git push --tags",
     "preversion": "bun check",
