@@ -32,13 +32,13 @@
     "url": "git+https://github.com/Shuunen/flood-it.git"
   },
   "scripts": {
-    "build": "tsc -b && vite build && echo build success",
+    "build": "tsc -b && vite build && bun build:mark && echo build success",
+    "build:mark": "unique-mark dist/index.{html} && echo build:mark success",
     "check": "bun install && echo install success && bun run build && repo-check && bun run lint && bun run test && echo check success",
     "dev": "vite",
     "lint": "bun lint:tsc && bun lint:knip && echo lint success",
     "lint:knip": "knip && echo lint:knip success",
     "lint:tsc": "tsc --noEmit && echo lint:tsc success",
-    "mark": "unique-mark public/index.html",
     "postversion": "git push && git push --tags",
     "preversion": "bun check",
     "preview": "vite preview",
