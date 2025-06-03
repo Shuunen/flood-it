@@ -3,13 +3,13 @@
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "dependencies": {
+    "@tailwindcss/vite": "4.1",
     "preact": "10.26",
     "shuutils": "10.6"
   },
   "description": "A flood it game",
   "devDependencies": {
     "@preact/preset-vite": "2.10",
-    "@tailwindcss/postcss": "4.1",
     "knip": "5.59",
     "repo-check": "1.44",
     "tailwindcss": "4.1",
