@@ -3,5 +3,7 @@
     "activityBar.background": "#3C2B07",
     "titleBar.activeBackground": "#543C0A",
     "titleBar.activeForeground": "#FDFAF2"
-  }
+  },
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": false
 }

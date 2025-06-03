@@ -4,6 +4,10 @@
 <script setup lang="ts">
 import { randomNumber, storage } from 'shuutils'
 import { ref } from 'vue'
+import GameBoard from './components/game-board.vue'
+import GameButtons from './components/game-buttons.vue'
+import MoveCounter from './components/move-counter.vue'
+import WinDialog from './components/win-dialog.vue'
 
 storage.prefix = 'flood-it_'
 
@@ -205,75 +209,15 @@ renderGame()
     <h1 class="text-5xl font-bold tracking-tighter text-green-100 drop-shadow-md">
       Flood-it
     </h1>
-    <div>{{ moves }} moves</div>
-    <div class="mb-2 flex shrink-0 flex-col items-center drop-shadow-md">
-      <div :key="yi" class="flex" v-for="yi in size.height">
-        <div :class="gameEnded ? 'animate-win' : ''" :id="`cell-${xi}${yi}`" :key="xi" @click="onCellClick"
-          class="size-14 cursor-pointer text-transparent transition-all duration-300 hover:opacity-80" v-for="xi in size.width">
-          {{ xi }}/ {{ yi }}
-        </div>
-      </div>
-    </div>
-    <div v-show="gameEnded">
-      <p class="mb-2 text-xl underline underline-offset-8">
-        You win in {{ moves }} moves {{ sameScore ? "again " : "" }} !
-      </p>
-      <small v-show="scoreSubmitted">Score has been submitted.</small>
-      <div v-show="askPlayer && !scoreSubmitted">
-        <p>
-          You want to be in the high-scores ?
-          <br>What's your name ?
-        </p>
-        <form @submit.prevent="postForm" id="askPlayerForm">
-          <label for="name">
-            Hero name :
-            <input @focus="askPlayerRules = true" id="name" maxlength="10" minlength="3" placeholder="hero name" type="text" v-model="player">
-          </label>
-          <input @click="setStorage" type="submit" value="Send !">
-          <ul v-show="askPlayerRules">
-            <li v-show="!player || player.length === 0">
-              Name cannot be empty.
-            </li>
-            <li v-show="player.length < 3 || player.length > 10">
-              Name should be between 3 & 10 characters long.
-            </li>
-          </ul>
-        </form>
-      </div>
-    </div>
-    <div class="flex items-center justify-center gap-6">
-      <button @click="restartGame" class="app-btn" type="button">
-        Restart
-      </button>
-      <button @click="useSeed" class="app-btn" type="button">
-        Use seed
-      </button>
-      <button @click="startGame" class="app-btn" type="button">
-        New game
-      </button>
-    </div>
+    <MoveCounter :moves="moves" />
+    <GameBoard :size="size" :game-ended="gameEnded" @cell-click="onCellClick" />
+    <WinDialog v-if="gameEnded" :moves="moves" :same-score="sameScore" :score-submitted="scoreSubmitted" :ask-player="askPlayer"
+      :ask-player-rules="askPlayerRules" :player="player" @post-form="postForm" @set-storage="setStorage" @show-player-rules="askPlayerRules = true"
+      @update:player="player = $event" />
+    <GameButtons @restart="restartGame" @use-seed="useSeed" @new-game="startGame" />
     <p class="text-xs tracking-tighter opacity-50">
       Game seed : {{ seed }}
     </p>
     <div />
   </div>
 </template>
-
-<style scoped>
-@reference "tailwindcss";
-
-.app-btn {
-  @apply bg-transparent border border-solid border-current rounded-md text-white cursor-pointer text-lg px-4 py-2 transition-opacity hover:opacity-100 opacity-70;
-}
-
-.animate-win {
-  animation: win 1s linear infinite;
-  animation-direction: alternate;
-}
-
-@keyframes win {
-  0% { transform: scale(1); }
-  50% { transform: scale(.9); }
-  100% { transform: scale(1) rotate(90deg); }
-}
-</style>
