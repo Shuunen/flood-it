@@ -10,7 +10,7 @@
   "description": "A flood it game",
   "devDependencies": {
     "@preact/preset-vite": "2.10",
-    "knip": "5.59",
+    "knip": "5.60",
     "oxlint": "0.17",
     "repo-check": "1.44",
     "tailwindcss": "4.1",
