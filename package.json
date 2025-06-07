@@ -11,7 +11,7 @@
   "devDependencies": {
     "@preact/preset-vite": "2.10",
     "knip": "5.60",
-    "oxlint": "0.17",
+    "oxlint": "0.18",
     "repo-check": "1.44",
     "tailwindcss": "4.1",
     "typescript": "5.8",
