@@ -12,7 +12,7 @@
     "@preact/preset-vite": "2.10",
     "knip": "5.60",
     "oxlint": "0.18",
-    "repo-check": "1.44",
+    "repo-check": "1.45",
     "tailwindcss": "4.1",
     "typescript": "5.8",
     "vite": "6.3"
