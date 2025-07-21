@@ -4,7 +4,7 @@ import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { App } from './app'
 
 // Mock the utils module to control randomness
-vi.mock('./utils', async () => {
+vi.mock<typeof import('./utils')>('./utils', async () => {
   const actual = await vi.importActual('./utils')
   return {
     ...actual,
