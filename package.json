@@ -48,7 +48,7 @@
     "postversion": "git push && git push --tags",
     "preversion": "bun check",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run && echo test success"
   },
   "type": "module",
   "version": "2.0.0"

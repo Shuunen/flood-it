@@ -12,5 +12,15 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     setupFiles: ['./src/test-setup.ts'],
+    coverage: {
+      all: true,
+      exclude: ['src/test-setup.ts'],
+      thresholds: {
+        lines: 100,
+        statements: 100,
+        functions: 100,
+        branches: 100
+      }
+    }
   },
 })

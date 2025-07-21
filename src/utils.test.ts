@@ -1,4 +1,3 @@
-// eslint-disable sort-keys
 import { randomNumber } from 'shuutils'
 import { describe, expect, it, vi } from 'vitest'
 import { colors, createSeed, flood, parseSeed } from './utils'
@@ -47,20 +46,20 @@ describe('utils', () => {
     it('should parse valid seed correctly', () => {
       const result = parseSeed('3x2_012345')
       expect(result).toEqual({
-        width: 3,
-        height: 2,
         cells: '012345',
-        fixedSeed: '3x2_012345'
+        fixedSeed: '3x2_012345',
+        height: 2,
+        width: 3
       })
     })
 
     it('should return default values for invalid seed', () => {
       const result = parseSeed('invalid')
       expect(result).toEqual({
-        width: 7,
-        height: 7,
         cells: '',
-        fixedSeed: ''
+        fixedSeed: '',
+        height: 7,
+        width: 7
       })
     })
 
@@ -68,20 +67,20 @@ describe('utils', () => {
       mockRandomNumber.mockReturnValue(0)
       const result = parseSeed('2x2_12')
       expect(result).toEqual({
-        width: 2,
-        height: 2,
         cells: '1200',
-        fixedSeed: '2x2_1200'
+        fixedSeed: '2x2_1200',
+        height: 2,
+        width: 2
       })
     })
 
     it('should fix too long seed', () => {
       const result = parseSeed('2x2_123456')
       expect(result).toEqual({
-        width: 2,
-        height: 2,
         cells: '1234',
-        fixedSeed: '2x2_1234'
+        fixedSeed: '2x2_1234',
+        height: 2,
+        width: 2
       })
     })
 

@@ -1,10 +1,10 @@
-// eslint-disable max-nested-callbacks, max-lines-per-function, sort-keys
+// eslint-disable max-nested-callbacks, max-lines-per-function
 import { render, screen, cleanup } from '@testing-library/preact'
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { App } from './app'
 
 // Mock the utils module to control randomness
-vi.mock<typeof import('./utils')>('./utils', async () => {
+vi.mock('./utils', async () => {
   const actual = await vi.importActual('./utils')
   return {
     ...actual,
@@ -12,10 +12,10 @@ vi.mock<typeof import('./utils')>('./utils', async () => {
     createSeed: vi.fn(() => '7x7_0000000000000000000000000000000000000000000000000'),
     // eslint-disable-next-line max-nested-callbacks
     parseSeed: vi.fn(() => ({
-      width: 7,
-      height: 7,
       cells: '0000000000000000000000000000000000000000000000000',
-      fixedSeed: '7x7_0000000000000000000000000000000000000000000000000'
+      fixedSeed: '7x7_0000000000000000000000000000000000000000000000000',
+      height: 7,
+      width: 7
     })),
     flood: vi.fn()
   }
