@@ -1,38 +1,9 @@
 // eslint-disable max-nested-callbacks
 // eslint-disable max-lines-per-function
 import { useEffect, useRef, useState } from 'preact/hooks'
-import { randomNumber } from 'shuutils'
+import { colors, createSeed, flood, parseSeed } from './utils'
 
-const colors = ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
 const initialSize = { height: 7, width: 7 }
-
-function createSeed (width: number, height: number) {
-  let seed = ''
-  for (let i = 0; i < width * height; i += 1) seed += randomNumber(0, colors.length - 1)
-  return `${width}x${height}_${seed}`
-}
-
-function parseSeed (seed: string) {
-  const match = /(?<width>\d+)x(?<height>\d+)_(?<cells>\d+)/u.exec(seed)
-  if (!match?.groups) return { cells: '', fixedSeed: '', height: 7, width: 7 }
-  let width = Number.parseInt(match.groups.width, 10)
-  let height = Number.parseInt(match.groups.height, 10)
-  let cells = match.groups.cells
-  const gridSize = width * height
-  let fixed = false
-  // Fix too short
-  if (cells.length < gridSize) {
-    for (let i = cells.length; i < gridSize; i += 1) cells += randomNumber(0, colors.length - 1)
-    fixed = true
-  }
-  // Fix too long
-  if (cells.length > gridSize) {
-    cells = cells.slice(0, gridSize)
-    fixed = true
-  }
-  const fixedSeed = `${width}x${height}_${cells}`
-  return { cells, fixedSeed: fixed ? fixedSeed : seed, height, width }
-}
 
 export function App () {
   const [seed, setSeed] = useState(() => {
@@ -72,19 +43,6 @@ export function App () {
     setSeed(fixedSeed)
   }, [seed, restartKey])
 
-  // Flood fill algorithm
-  // eslint-disable-next-line max-params, consistent-function-scoping
-  function flood (x: number, y: number, target: string, replacement: string, g: string[][]) {
-    if (
-      x < 0 || y < 0 || y >= g.length || x >= g[0].length ||
-      g[y][x] !== target || g[y][x] === replacement
-    ) return
-    g[y][x] = replacement
-    flood(x + 1, y, target, replacement, g)
-    flood(x - 1, y, target, replacement, g)
-    flood(x, y + 1, target, replacement, g)
-    flood(x, y - 1, target, replacement, g)
-  }
 
   function handleCellClick (color: string) {
     if (gameEnded || color === floodColor) return
