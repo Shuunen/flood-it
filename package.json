@@ -15,7 +15,7 @@
     "repo-check": "1.45",
     "tailwindcss": "4.1",
     "typescript": "5.9",
-    "vite": "7.1"
+    "vite": "7.2"
   },
   "files": [
     "src"
