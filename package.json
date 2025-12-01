@@ -4,7 +4,7 @@
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "dependencies": {
     "@tailwindcss/vite": "4.1",
-    "preact": "10.27",
+    "preact": "10.28",
     "shuutils": "10.6"
   },
   "description": "A flood it game",
