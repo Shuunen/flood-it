@@ -10,12 +10,12 @@
   "description": "A flood it game",
   "devDependencies": {
     "@preact/preset-vite": "2.10",
-    "knip": "6.27",
-    "oxlint": "1.3",
-    "repo-check": "1.45",
+    "knip": "6.34",
+    "oxlint": "1.81",
+    "repo-check": "1.46",
     "tailwindcss": "4.3",
     "typescript": "7.0",
-    "vite": "8.1"
+    "vite": "8.2"
   },
   "files": [
     "src"
