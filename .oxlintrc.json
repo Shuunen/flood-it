@@ -57,7 +57,9 @@
       "error",
       12
     ],
+    "eslint/max-statements": "off",
     "eslint/no-undefined": "off",
+    "eslint/one-var": "off",
     "eslint/yoda": "off",
     "func-style": [
       "error",
@@ -68,6 +70,8 @@
     ],
     "import/exports-last": "off",
     "import/group-exports": "off",
+    "import/no-named-export": "off",
+    "import/prefer-default-export": "off",
     "jsdoc/require-param-type": "off",
     "jsdoc/require-returns-type": "off",
     "no-async-await": "off",
@@ -97,6 +101,7 @@
     ],
     "unicorn/no-useless-undefined": "off",
     "vitest/prefer-to-be-falsy": "off",
-    "vitest/prefer-to-be-truthy": "off"
+    "vitest/prefer-to-be-truthy": "off",
+    "vitest/require-hook": "off"
   }
 }
