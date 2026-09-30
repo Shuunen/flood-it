@@ -1,6 +1,3 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
-  "ignoreDependencies": [
-    "tailwindcss"
-  ]
+  "$schema": "https://unpkg.com/knip@5/schema.json"
 }
