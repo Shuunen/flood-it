@@ -4,18 +4,18 @@
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "preact": "^11.0.0",
+    "preact": "^11.0.1",
     "shuutils": "^11.0.0"
   },
   "description": "A flood it game",
   "devDependencies": {
     "@preact/preset-vite": "^2.10.6",
-    "knip": "^6.38.0",
-    "oxlint": "^1.86.0",
+    "knip": "^6.42.0",
+    "oxlint": "^1.88.0",
     "repo-check": "^1.46.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
-    "vite": "^8.3.1"
+    "vite": "^8.3.4"
   },
   "files": [
     "src"
@@ -33,19 +33,20 @@
     "url": "git+https://github.com/Shuunen/flood-it.git"
   },
   "scripts": {
-    "build": "tsc -b && vite build && bun build:mark && echo build success",
+    "build": "tsc -b && vite build && pnpm build:mark && echo build success",
     "build:mark": "unique-mark dist/index.{html} && echo build:mark success",
-    "check": "bun install && echo install success && bun run build && repo-check && bun run lint && bun run test && echo check success",
+    "check": "pnpm install && echo install success && pnpm build && repo-check && pnpm lint && pnpm test && echo check success",
     "dev": "vite",
-    "lint": "bun lint:tsc && bun lint:knip && bun lint:oxlint && echo lint success",
+    "lint": "pnpm lint:tsc && pnpm lint:knip && pnpm lint:oxlint && echo lint success",
     "lint:knip": "knip && echo lint:knip success",
     "lint:oxlint": "oxlint src --deny-warnings --fix --fix-suggestions --fix-dangerously && echo lint:oxlint success",
     "lint:tsc": "tsc --noEmit && echo lint:tsc success",
     "postversion": "git push && git push --tags",
-    "preversion": "bun check",
+    "preversion": "pnpm check",
     "preview": "vite preview",
     "test": "echo no tests yet && echo test success"
   },
   "type": "module",
-  "version": "2.0.0"
+  "version": "2.0.0",
+  "packageManager": "pnpm@12.14.0"
 }

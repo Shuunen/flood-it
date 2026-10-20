@@ -12,7 +12,7 @@
 ## Thanks
 
 - [Boxy Svg](https://boxy-svg.com) : simple & effective svg editor
-- [Bun](https://bun.sh) : super fast runtime for JavaScript and TypeScript
+- [pnpm](https://pnpm.io) : fast, disk space efficient package manager
 - [Github](https://github.com) : for all their great work year after year, pushing OSS forward
 - [Knip](https://github.com/webpro/knip) : super tool to find & fix problems
 - [Netlify](https://netlify.com) : awesome company that offers free CI & hosting for OSS projects

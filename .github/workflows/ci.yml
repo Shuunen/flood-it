@@ -10,13 +10,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Setup node
         uses: actions/setup-node@v7
         with:
           node-version: 24
-
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v2
+          cache: pnpm
 
       - name: Run check 👀
-        run: bun run check
+        run: pnpm check
