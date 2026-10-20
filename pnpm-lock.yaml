@@ -170,7 +170,7 @@ importers:
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.4(jiti@2.7.0)(yaml@2.9.1))
       preact:
-        specifier: ^11.0.0
+        specifier: ^11.0.1
         version: 11.0.1
       shuutils:
         specifier: ^11.0.0
@@ -180,10 +180,10 @@ importers:
         specifier: ^2.10.6
         version: 2.10.6(@babel/core@7.29.7)(preact@11.0.1)(vite@8.3.4(jiti@2.7.0)(yaml@2.9.1))
       knip:
-        specifier: ^6.38.0
+        specifier: ^6.42.0
         version: 6.42.0
       oxlint:
-        specifier: ^1.86.0
+        specifier: ^1.88.0
         version: 1.88.0
       repo-check:
         specifier: ^1.46.0
@@ -195,7 +195,7 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
       vite:
-        specifier: ^8.3.1
+        specifier: ^8.3.4
         version: 8.3.4(jiti@2.7.0)(yaml@2.9.1)
 
 packages:

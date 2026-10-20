@@ -4,18 +4,18 @@
   "bugs": "https://github.com/Shuunen/flood-it/issues",
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "preact": "^11.0.0",
+    "preact": "^11.0.1",
     "shuutils": "^11.0.0"
   },
   "description": "A flood it game",
   "devDependencies": {
     "@preact/preset-vite": "^2.10.6",
-    "knip": "^6.38.0",
-    "oxlint": "^1.86.0",
+    "knip": "^6.42.0",
+    "oxlint": "^1.88.0",
     "repo-check": "^1.46.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
-    "vite": "^8.3.1"
+    "vite": "^8.3.4"
   },
   "files": [
     "src"
