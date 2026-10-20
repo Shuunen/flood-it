@@ -37,6 +37,7 @@ function parseSeed (seed: string) {
 
 export function App (): JSX.Element {
   const [seed, setSeed] = useState(() => {
+    /* v8 ignore next -- SSR guard, globalThis always exists in tests */
     if (typeof globalThis !== 'undefined') {
       const hash = globalThis.location.hash.slice(1)
       if (hash) return hash
@@ -61,12 +62,11 @@ export function App (): JSX.Element {
   // Generate grid from seed
   useEffect(() => {
     const { width, height, cells, fixedSeed } = parseSeed(seed)
-    let idx = 0
-    const newGrid = Array.from({ length: height }, () =>
-      // eslint-disable-next-line no-return-assign
-      Array.from({ length: width }, () => colors[Number(cells[idx += 1] ?? '0')] || colors[0])
+    const newGrid = Array.from({ length: height }, (_row, yi) =>
+      Array.from({ length: width }, (_cell, xi) => colors[Number(cells[yi * width + xi])] || colors[0])
     )
     setGrid(newGrid)
+    /* v8 ignore next -- defensive, grid always has a first cell once seed is parsed */
     setFloodColor(newGrid[0]?.[0] || '')
     setMoves(0)
     setGameEnded(false)
@@ -103,6 +103,7 @@ export function App (): JSX.Element {
   }
 
   function newGame () {
+    /* v8 ignore next -- defensive, grid is never empty after the first effect */
     setSeed(createSeed(grid[0]?.length || initialSize.width, grid.length > 0 ? grid.length : initialSize.height))
   }
 
