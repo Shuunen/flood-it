@@ -8,4 +8,7 @@ export default defineConfig({
     preact(),
     tailwindcss()
   ],
+  // dedicated ports, so apps never collide when running together
+  preview: { port: 4101, strictPort: true },
+  server: { port: 5101, strictPort: true },
 })
