@@ -192,8 +192,8 @@ importers:
         specifier: ^1.90.0
         version: 1.90.0
       repo-check:
-        specifier: 2.0.0-rc.0
-        version: 2.0.0-rc.0(@types/react@19.3.0)(react@19.3.1)
+        specifier: 2.0.0-rc.1
+        version: 2.0.0-rc.1(@types/react@19.3.0)(react@19.3.1)
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
@@ -1159,6 +1159,10 @@ packages:
     resolution: {integrity: sha512-nEh+kZOPY1w+gcCMobZ6ETUp9WfibndnosbpwB1iJk/8Gt5ZF2bhS6+B6bPYz424KtwsR6Rflc3tCz1/ghX2dQ==}
     engines: {node: '>=4.0'}
 
+  cac@7.1.0:
+    resolution: {integrity: sha512-LMDU/U2yA4IPIY8KT0NsNPWEYZvAMkbgyspxJ6btJaYV+WMDOHAZCmB0lsTObiHaRS1V/ztKAl7+TSkTqXyeoA==}
+    engines: {node: '>=20.19.0'}
+
   caniuse-lite@1.0.30001820:
     resolution: {integrity: sha512-gfWD6MxqVCqAOwmODfZf7DchWvlrA+SRdNX7ceLfg3xRqe5ssjjpF7EgslC/0tiLiNTajdaNN/q8c/5u/7Gz8w==}
 
@@ -1729,8 +1733,8 @@ packages:
   remark-rehype@11.1.2:
     resolution: {integrity: sha512-Dh7l57ianaEoIpzbp0PC9UKAdCSVklD8E5Rpw7ETfbTl3FqcOOgq5q2LVDhgGCkaBv7p24JXikPdvhhmHvKMsw==}
 
-  repo-check@2.0.0-rc.0:
-    resolution: {integrity: sha512-ubz8m/fWoflEEoTE0fkNUqzs7zvjUYZh6FVf5O0TefwkE7IOHT0q2dDWpwEXO95+NC814oFramefczPWNyL4SQ==}
+  repo-check@2.0.0-rc.1:
+    resolution: {integrity: sha512-d0AqjupQCF7xbPBh8YeOvCWsAKYibKzLzo8n0jxNx4i3tnl0FSpFVWzY8udDuH9R/kahJlpSB4zZeiCLvaniww==}
     hasBin: true
 
   resolve-pkg-maps@1.0.0:
@@ -2686,6 +2690,8 @@ snapshots:
     dependencies:
       '@types/node': 26.6.6
 
+  cac@7.1.0: {}
+
   caniuse-lite@1.0.30001820: {}
 
   ccount@2.0.1: {}
@@ -3394,9 +3400,10 @@ snapshots:
       unified: 11.0.5
       vfile: 6.0.3
 
-  repo-check@2.0.0-rc.0(@types/react@19.3.0)(react@19.3.1):
+  repo-check@2.0.0-rc.1(@types/react@19.3.0)(react@19.3.1):
     dependencies:
       '@hono/node-server': 2.1.5(hono@4.13.16)
+      cac: 7.1.0
       es-toolkit: 1.52.0
       hono: 4.13.16
       jsonc-parser: 3.3.1

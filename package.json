@@ -14,7 +14,7 @@
     "happy-dom": "^21.0.4",
     "knip": "^6.44.0",
     "oxlint": "^1.90.0",
-    "repo-check": "2.0.0-rc.0",
+    "repo-check": "2.0.0-rc.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.5",
