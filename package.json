@@ -10,7 +10,7 @@
   "description": "A flood it game",
   "devDependencies": {
     "@preact/preset-vite": "^2.10.6",
-    "@vitest/coverage-v8": "~5.0.5",
+    "@vitest/coverage-v8": "~5.1.0",
     "happy-dom": "^21.0.4",
     "knip": "^6.44.0",
     "oxlint": "^1.90.0",
@@ -18,7 +18,7 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.5",
-    "vitest": "~5.0.5"
+    "vitest": "~5.1.0"
   },
   "files": [
     "src"
