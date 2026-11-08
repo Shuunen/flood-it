@@ -1,10 +1,6 @@
-
-
-
-
+import { beforeEach, vi, afterEach, describe, expect, it } from 'vitest';
 import { act } from 'preact/test-utils'
 import { render } from 'preact'
-
 import { App } from './app.tsx'
 
 const colors = ['royalblue', 'deeppink', 'chartreuse', 'darkorange']

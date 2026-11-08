@@ -1,9 +1,4 @@
-
-
-
-
-
-
+import { vi, afterEach, describe, expect, it } from 'vitest';
 describe('main', () => {
   afterEach(() => {
     document.body.innerHTML = ''
