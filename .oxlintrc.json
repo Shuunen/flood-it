@@ -28,6 +28,7 @@
         "max-nested-callbacks": "off",
         "no-magic-numbers": "off",
         "unambiguous": "off",
+        "import/newline-after-import": "off",
         "vitest/no-hooks": "off",
         "vitest/require-test-timeout": "off"
       }
