@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .app-btn {
-  @apply bg-transparent border border-solid border-current rounded-md text-white cursor-pointer text-lg px-4 py-2 transition-opacity hover:opacity-100 opacity-70;
+  @apply cursor-pointer rounded-md border border-solid border-current bg-transparent px-4 py-2 text-lg text-white opacity-70 transition-opacity hover:opacity-100;
 }
 
 .app-btn:disabled {
@@ -16,7 +16,13 @@
 }
 
 @keyframes win {
-  0% { transform: scale(1); }
-  50% { transform: scale(.9); }
-  100% { transform: scale(1) rotate(90deg); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1) rotate(90deg);
+  }
 }

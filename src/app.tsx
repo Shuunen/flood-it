@@ -7,13 +7,13 @@ import { randomNumber } from 'shuutils'
 const colors = ['royalblue', 'deeppink', 'chartreuse', 'darkorange']
 const initialSize = { height: 7, width: 7 }
 
-function createSeed (width: number, height: number) {
+function createSeed(width: number, height: number) {
   let seed = ''
   for (let index = 0; index < width * height; index += 1) seed += randomNumber(0, colors.length - 1)
   return `${width}x${height}_${seed}`
 }
 
-function parseSeed (seed: string) {
+function parseSeed(seed: string) {
   const match = /(?<width>\d+)x(?<height>\d+)_(?<cells>\d+)/u.exec(seed)
   if (!match?.groups) return { cells: '', fixedSeed: '', height: 7, width: 7 }
   const width = Number(match.groups.width)
@@ -35,7 +35,7 @@ function parseSeed (seed: string) {
   return { cells, fixedSeed: fixed ? fixedSeed : seed, height, width }
 }
 
-export function App (): JSX.Element {
+export function App(): JSX.Element {
   const [seed, setSeed] = useState(() => {
     /* v8 ignore next -- SSR guard, globalThis always exists in tests */
     if (typeof globalThis !== 'undefined') {
@@ -62,9 +62,7 @@ export function App (): JSX.Element {
   // Generate grid from seed
   useEffect(() => {
     const { width, height, cells, fixedSeed } = parseSeed(seed)
-    const newGrid = Array.from({ length: height }, (_row, yi) =>
-      Array.from({ length: width }, (_cell, xi) => colors[Number(cells[yi * width + xi])] || colors[0])
-    )
+    const newGrid = Array.from({ length: height }, (_row, yi) => Array.from({ length: width }, (_cell, xi) => colors[Number(cells[yi * width + xi])] || colors[0]))
     setGrid(newGrid)
     /* v8 ignore next -- defensive, grid always has a first cell once seed is parsed */
     setFloodColor(newGrid[0]?.[0] || '')
@@ -75,11 +73,8 @@ export function App (): JSX.Element {
 
   // Flood fill algorithm
   // eslint-disable-next-line max-params, consistent-function-scoping
-  function flood (column: number, row: number, target: string, replacement: string, board: string[][]) {
-    if (
-      column < 0 || row < 0 || row >= board.length || column >= board[0].length ||
-      board[row][column] !== target || board[row][column] === replacement
-    ) return
+  function flood(column: number, row: number, target: string, replacement: string, board: string[][]) {
+    if (column < 0 || row < 0 || row >= board.length || column >= board[0].length || board[row][column] !== target || board[row][column] === replacement) return
     board[row][column] = replacement
     flood(column + 1, row, target, replacement, board)
     flood(column - 1, row, target, replacement, board)
@@ -87,7 +82,7 @@ export function App (): JSX.Element {
     flood(column, row - 1, target, replacement, board)
   }
 
-  function handleCellClick (color: string) {
+  function handleCellClick(color: string) {
     if (gameEnded || color === floodColor) return
     const newGrid = grid.map(row => [...row])
     flood(0, 0, floodColor, color, newGrid)
@@ -98,20 +93,24 @@ export function App (): JSX.Element {
     if (newGrid.flat().every(cell => cell === color)) setGameEnded(true)
   }
 
-  function restart () {
+  function restart() {
     setRestartKey(key => key + 1)
   }
 
-  function newGame () {
+  function newGame() {
     /* v8 ignore next -- defensive, grid is never empty after the first effect */
     setSeed(createSeed(grid[0]?.length || initialSize.width, grid.length > 0 ? grid.length : initialSize.height))
   }
 
-  function GameButtons () {
+  function GameButtons() {
     return (
       <div class="flex justify-center gap-8">
-        <button onClick={newGame} class="app-btn" type="button">New Game</button>
-        <button onClick={restart} class="app-btn" type="button" disabled={moves === 0}>Restart</button>
+        <button onClick={newGame} class="app-btn" type="button">
+          New Game
+        </button>
+        <button onClick={restart} class="app-btn" type="button" disabled={moves === 0}>
+          Restart
+        </button>
       </div>
     )
   }
@@ -127,7 +126,9 @@ export function App (): JSX.Element {
               <div
                 key={`${xi}-${yi}`}
                 id={`cell-${xi + 1}${yi + 1}`}
-                onClick={() => handleCellClick(color)}
+                onClick={() => {
+                  handleCellClick(color)
+                }}
                 class={`size-14 cursor-pointer transition-all duration-300 ${gameEnded ? 'animate-win' : ''}`}
                 style={{ background: color }}
               />
@@ -135,9 +136,7 @@ export function App (): JSX.Element {
           </div>
         ))}
       </div>
-      {gameEnded && (
-        <p class="mb-2 text-xl underline underline-offset-8">You win in {moves} moves!</p>
-      )}
+      {gameEnded && <p class="mb-2 text-xl underline underline-offset-8">You win in {moves} moves!</p>}
       <GameButtons />
       <p class="text-xs tracking-tighter opacity-50">Game seed : {seed}</p>
       <div />
