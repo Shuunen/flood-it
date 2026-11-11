@@ -1,6 +1,5 @@
 import { render } from 'preact'
 import { act } from 'preact/test-utils'
-
 import { App } from './app.tsx'
 
 const colors = ['royalblue', 'deeppink', 'chartreuse', 'darkorange']

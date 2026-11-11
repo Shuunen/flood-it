@@ -16,12 +16,7 @@
   },
   "sortPackageJson": false,
   "sortTailwindcss": {
-    "functions": [
-      "clsx",
-      "cn",
-      "cva",
-      "tw"
-    ]
+    "functions": ["clsx", "cn", "cva", "tw"]
   },
   "tabWidth": 2,
   "trailingComma": "all",

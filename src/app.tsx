@@ -1,4 +1,3 @@
-// eslint-disable max-nested-callbacks
 // eslint-disable max-lines-per-function
 import type { JSX } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'

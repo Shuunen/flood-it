@@ -1,4 +1,3 @@
-
 describe('main', () => {
   afterEach(() => {
     document.body.innerHTML = ''

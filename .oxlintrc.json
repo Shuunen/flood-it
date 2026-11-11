@@ -21,10 +21,7 @@
       "env": {
         "vitest": true
       },
-      "files": [
-        "*.test.ts",
-        "*.test.tsx"
-      ],
+      "files": ["*.test.ts", "*.test.tsx"],
       "rules": {
         "eslint/id-length": "off",
         "eslint/init-declarations": "off",
@@ -38,40 +35,28 @@
       }
     },
     {
-      "files": [
-        "*.d.ts"
-      ],
+      "files": ["*.config.ts"],
+      "rules": {
+        "no-default-export": "off"
+      }
+    },
+    {
+      "files": ["*.d.ts"],
       "rules": {
         "unambiguous": "off"
       }
     }
   ],
-  "plugins": [
-    "import",
-    "jsdoc",
-    "oxc",
-    "typescript",
-    "unicorn",
-    "vitest"
-  ],
+  "plugins": ["import", "jsdoc", "oxc", "typescript", "unicorn", "vitest"],
   "rules": {
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-indexed-object-style": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "consistent-type-specifier-style": "off",
-    "curly": [
-      "error",
-      "multi"
-    ],
+    "curly": ["error", "multi"],
     "eslint/capitalized-comments": "off",
-    "eslint/max-depth": [
-      "error",
-      2
-    ],
-    "eslint/max-lines-per-function": [
-      "error",
-      12
-    ],
+    "eslint/max-depth": ["error", 2],
+    "eslint/max-lines-per-function": ["error", 12],
     "eslint/max-statements": "off",
     "eslint/no-undefined": "off",
     "eslint/one-var": "off",
@@ -92,14 +77,11 @@
     "no-async-await": "off",
     "no-continue": "off",
     "no-default-export": "error",
+    "prefer-importing-vitest-globals": "off",
     "no-magic-numbers": [
       "error",
       {
-        "ignore": [
-          -1,
-          0,
-          1
-        ],
+        "ignore": [-1, 0, 1],
         "ignoreClassFieldInitialValues": true,
         "ignoreDefaultValues": true
       }
