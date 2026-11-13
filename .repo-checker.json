@@ -1,3 +1,4 @@
 {
-  "web_url": "https://flood-it.netlify.app"
+  "$schema": "./node_modules/repo-check/schema.json",
+  "webUrl": "https://flood-it.netlify.app"
 }
