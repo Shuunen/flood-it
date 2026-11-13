@@ -9,6 +9,8 @@ export default mergeConfig(
       environment: 'happy-dom',
       globals: true,
       pool: 'threads',
+      reporters: ['dot'],
+      silent: true,
     },
   }),
 )
