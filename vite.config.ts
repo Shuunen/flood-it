@@ -5,6 +5,7 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: { reportCompressedSize: false },
   plugins: [preact(), tailwindcss(), uniqueMark()],
   // dedicated ports, so apps never collide when running together
   preview: { port: 4101, strictPort: true },
