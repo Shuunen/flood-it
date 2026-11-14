@@ -13,6 +13,7 @@ All notable changes to this project are documented here.
 - Enable the oxlint promise plugin
 - Use oxlint directives in place of the eslint ones, and stop recommending the eslint extension
 - Stop reporting the compressed size of the files at build time
+- Color the VS Code window from the theme color: title bar, activity bar, status bar, badges and active tab
 
 ## [2.0.1] - 2026-11-13
 
