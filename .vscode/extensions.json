@@ -2,7 +2,6 @@
   "recommendations": [
     "aaron-bond.better-comments",
     "davidanson.vscode-markdownlint",
-    "dbaeumer.vscode-eslint",
     "editorconfig.editorconfig",
     "lzp.svg-preview-in-code",
     "michelemelluso.gitignore",

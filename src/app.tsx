@@ -1,4 +1,4 @@
-// eslint-disable max-lines-per-function
+// oxlint-disable max-lines-per-function
 import type { JSX } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { randomNumber } from 'shuutils'
@@ -71,7 +71,7 @@ export function App(): JSX.Element {
   }, [seed, restartKey])
 
   // Flood fill algorithm
-  // eslint-disable-next-line max-params, consistent-function-scoping
+  // oxlint-disable-next-line max-params, consistent-function-scoping
   function flood(column: number, row: number, target: string, replacement: string, board: string[][]) {
     if (column < 0 || row < 0 || row >= board.length || column >= board[0].length || board[row][column] !== target || board[row][column] === replacement) return
     board[row][column] = replacement
