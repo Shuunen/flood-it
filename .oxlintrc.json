@@ -47,7 +47,7 @@
       }
     }
   ],
-  "plugins": ["import", "jsdoc", "oxc", "typescript", "unicorn", "vitest"],
+  "plugins": ["import", "jsdoc", "oxc", "promise", "typescript", "unicorn", "vitest"],
   "rules": {
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-indexed-object-style": "off",
