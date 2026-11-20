@@ -2,25 +2,17 @@
   "$schema": "https://json.schemastore.org/package",
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/flood-it/issues",
-  "dependencies": {
-    "preact": "^11.1.0",
-    "shuutils": "^12.0.0"
-  },
-  "description": "A flood it game",
+  "description": "A flood it game, played in water, made with raea",
   "devDependencies": {
-    "@preact/preset-vite": "^2.10.6",
-    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
     "@vitest/coverage-v8": "~5.1.0",
-    "happy-dom": "^21.0.4",
     "knip": "^6.44.0",
     "oxfmt": "~0.78.0",
     "oxlint": "^1.90.0",
     "oxlint-tsgolint": "~7.0.2006",
     "repo-check": "2.0.0-rc.1",
-    "tailwindcss": "^4.3.3",
     "turbo": "~2.11.10",
     "typescript": "^7.0.2",
-    "vite": "^8.3.5",
     "vitest": "~5.1.0"
   },
   "files": [
@@ -29,7 +21,8 @@
   "homepage": "https://github.com/Shuunen/flood-it",
   "keywords": [
     "flood-it",
-    "game"
+    "game",
+    "raea"
   ],
   "license": "GPL-3.0",
   "name": "@shuunen/flood-it",
@@ -40,11 +33,10 @@
     "url": "git+https://github.com/Shuunen/flood-it.git"
   },
   "scripts": {
-    "build": "turbo run build:tsc build:vite && echo build completed successfully",
+    "build": "turbo run build:tsc && echo build completed successfully",
     "build:tsc": "tsc -b && echo build:tsc completed successfully",
-    "build:vite": "vite build && echo build:vite completed successfully",
-    "check": "turbo run --output-logs=errors-only lint:install lint:knip lint:format lint:types lint:issues lint:repo test:unit build:tsc build:vite && echo check completed successfully",
-    "dev": "vite",
+    "check": "turbo run --output-logs=errors-only lint:install lint:knip lint:format lint:types lint:issues lint:repo test:unit build:tsc && echo check completed successfully",
+    "dev": "raea play src/edit.tsx",
     "lint": "turbo run lint:install lint:knip lint:format lint:types lint:issues lint:repo && echo lint completed successfully",
     "lint:format": "oxfmt --check && echo lint:format completed successfully || (echo Please run pnpm run lint:format:fix to format the code && exit 1)",
     "lint:format:fix": "oxfmt --write && echo lint:format:fix completed successfully",
@@ -54,9 +46,9 @@
     "lint:knip": "knip && echo lint:knip completed successfully",
     "lint:repo": "repo-check && echo lint:repo completed successfully",
     "lint:types": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json && echo lint:types completed successfully",
+    "play": "raea play src/edit.tsx",
     "postversion": "git push && git push --tags",
     "preversion": "pnpm check",
-    "preview": "vite preview",
     "test": "turbo run test:unit && echo test completed successfully",
     "test:ui": "vitest --ui",
     "test:unit": "vitest run --coverage && echo test:unit completed successfully",
