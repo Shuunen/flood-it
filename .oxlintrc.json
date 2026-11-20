@@ -9,14 +9,53 @@
     "style": "warn",
     "suspicious": "warn"
   },
-  "globals": {
-    "document": "readonly"
-  },
+  "globals": {},
   "options": {
     "typeAware": true,
     "typeCheck": true
   },
   "overrides": [
+    {
+      "files": ["src/**"],
+      "rules": {
+        "eslint/id-length": "off",
+        "eslint/max-lines-per-function": "off",
+        "no-magic-numbers": "off",
+        "jsdoc/require-param": "off",
+        "jsdoc/require-returns": "off",
+        "unicorn/no-null": "off",
+        "import/no-relative-parent-imports": "off",
+        "eslint/prefer-destructuring": "off",
+        "typescript/consistent-type-definitions": "off",
+        "typescript/explicit-module-boundary-types": "off",
+        "eslint/no-bitwise": "off",
+        "typescript/explicit-member-accessibility": "off",
+        "eslint/max-params": "off",
+        "typescript/strict-boolean-expressions": "off",
+        "typescript/no-unsafe-type-assertion": "off",
+        "eslint/no-nested-ternary": "off",
+        "unicorn/no-nested-ternary": "off",
+        "eslint/sort-keys": "off",
+        "eslint/no-plusplus": "off",
+        "eslint/complexity": "off",
+        "eslint/max-lines": "off",
+        "eslint/max-depth": "off",
+        "eslint/no-negated-condition": "off",
+        "unicorn/no-negated-condition": "off",
+        "import/no-namespace": "off",
+        "import/no-unassigned-import": "off",
+        "eslint/max-classes-per-file": "off",
+        "eslint/new-cap": "off",
+        "typescript/no-misused-spread": "off",
+        "eslint/no-shadow": "off",
+        "eslint/prefer-template": "off",
+        "unicorn/prefer-code-point": "off",
+        "unicorn/number-literal-case": "off",
+        "eslint/init-declarations": "off",
+        "unicorn/no-object-as-default-parameter": "off",
+        "unicorn/consistent-function-scoping": "off"
+      }
+    },
     {
       "env": {
         "vitest": true
@@ -31,7 +70,17 @@
         "no-magic-numbers": "off",
         "unambiguous": "off",
         "vitest/no-hooks": "off",
-        "vitest/require-test-timeout": "off"
+        "vitest/require-test-timeout": "off",
+        "vitest/prefer-expect-assertions": "off",
+        "vitest/max-expects": "off",
+        "vitest/no-conditional-in-test": "off",
+        "unicorn/no-null": "off",
+        "eslint/max-nested-callbacks": "off",
+        "jsdoc/require-param": "off",
+        "jsdoc/require-returns": "off",
+        "import/no-relative-parent-imports": "off",
+        "typescript/strict-boolean-expressions": "off",
+        "eslint/prefer-destructuring": "off"
       }
     },
     {

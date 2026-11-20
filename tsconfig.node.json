@@ -17,5 +17,5 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "verbatimModuleSyntax": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vitest.config.ts"]
 }
